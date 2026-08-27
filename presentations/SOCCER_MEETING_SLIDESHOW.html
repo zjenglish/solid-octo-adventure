@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚽ Fenway Boys Soccer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background: linear-gradient(135deg, #0d5e42 0%, #1a3a2a 100%);
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+        
+        .container { flex: 1; display: flex; flex-direction: column; }
+        
+        .slide-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 40px 100px 40px;
+            background: linear-gradient(135deg, #0d5e42 0%, #1a3a2a 100%);
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            padding: 60px 80px;
+            max-width: 1280px;
+            max-height: 720px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+
+        .slide::-webkit-scrollbar-thumb {
+            background: rgba(34, 197, 94, 0.5);
+            border-radius: 4px;
+        }
+
+        .slide::-webkit-scrollbar-thumb:hover {
+            background: rgba(34, 197, 94, 0.8);
+        }
+        
+        .slide.active { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn { 
+            from { opacity: 0; transform: scale(0.98); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+        
+        /* SOCCER FIELD BACKGROUND */
+        .slide {
+            background: linear-gradient(180deg, #2d5a3d 0%, #1e3f2e 100%);
+            background-image: 
+                linear-gradient(90deg, transparent 24%, rgba(255,255,255,.1) 25%, rgba(255,255,255,.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.1) 75%, rgba(255,255,255,.1) 76%, transparent 77%, transparent),
+                linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: white;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 100%;
+            background: rgba(255,255,255,0.15);
+            pointer-events: none;
+        }
+        
+        .slide::after {
+            content: '⚽';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .slide-content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* TITLE SLIDE */
+        .slide.title-slide {
+            background: linear-gradient(135deg, #0d5e42 0%, #0a4d38 50%, #1a3a2a 100%);
+            text-align: center;
+        }
+        
+        .slide.title-slide::before { display: none; }
+        .slide.title-slide::after { font-size: 80px; opacity: 0.15; }
+        
+        /* TYPOGRAPHY */
+        .slide h1 { 
+            font-size: 54px; 
+            font-weight: 700; 
+            line-height: 1.2; 
+            margin-bottom: 16px;
+            color: #22c55e;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide.title-slide h1 { 
+            color: white;
+            font-size: 64px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+        }
+        
+        .slide h2 { 
+            font-size: 40px; 
+            font-weight: 600; 
+            color: #22c55e;
+            margin-bottom: 28px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .slide h3 { 
+            font-size: 24px; 
+            font-weight: 500; 
+            color: #fbbf24;
+            margin-top: 24px; 
+            margin-bottom: 12px;
+        }
+        
+        .slide p { 
+            font-size: 18px; 
+            line-height: 1.7; 
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 12px;
+        }
+        
+        .slide.title-slide p { 
+            color: rgba(255,255,255,0.9); 
+            font-size: 20px; 
+            margin: 8px 0;
+        }
+        
+        .slide ul { 
+            margin: 0; 
+            list-style: none; 
+            padding: 0; 
+        }
+        
+        .slide li { 
+            font-size: 18px; 
+            line-height: 1.9; 
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 12px; 
+            padding-left: 40px; 
+            position: relative;
+        }
+        
+        .slide li:before { 
+            content: "⚽"; 
+            position: absolute; 
+            left: 0; 
+            font-size: 20px;
+        }
+        
+        /* GRID */
+        .grid-2 { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 24px; 
+            margin-top: 24px; 
+        }
+        
+        .grid-3 { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 24px; 
+            margin-top: 24px; 
+        }
+        
+        .grid-col { 
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 24px; 
+            border-radius: 8px; 
+            border-left: 4px solid #22c55e;
+            border-top: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .grid-col h4 { 
+            font-size: 18px; 
+            font-weight: 600; 
+            color: #fbbf24;
+            margin-bottom: 12px;
+        }
+        
+        .grid-col p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .grid-col ul { margin-top: 8px; }
+        
+        .grid-col li { 
+            font-size: 16px; 
+            padding-left: 28px; 
+        }
+        
+        /* HIGHLIGHT BOX */
+        .highlight { 
+            background: rgba(34, 197, 94, 0.2);
+            border-left: 4px solid #22c55e;
+            border-top: 2px solid #22c55e;
+            padding: 24px; 
+            border-radius: 8px; 
+            margin: 24px 0; 
+            font-size: 16px; 
+            color: rgba(255,255,255,0.95);
+            line-height: 1.7;
+            backdrop-filter: blur(10px);
+        }
+        
+        .highlight strong { 
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        
+        .highlight a {
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* SCHEDULE TABLE */
+        .schedule { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        
+        .schedule th { 
+            background: rgba(34, 197, 94, 0.3);
+            color: #fbbf24;
+            padding: 12px; 
+            text-align: left; 
+            font-weight: 600; 
+            border-bottom: 2px solid #22c55e;
+        }
+        
+        .schedule td { 
+            padding: 10px 12px; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .schedule .home { 
+            color: #22c55e;
+            font-weight: 600;
+        }
+        
+        /* CONTROLS */
+        .controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 40px;
+            background: linear-gradient(to top, rgba(13, 94, 66, 0.95), rgba(13, 94, 66, 0.85));
+            border-top: 2px solid rgba(34, 197, 94, 0.5);
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        button { 
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white; 
+            border: none; 
+            padding: 12px 28px; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+        
+        button:hover { 
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+        
+        .counter { 
+            font-size: 14px; 
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+        }
+        
+        .counter .num { 
+            color: #22c55e;
+            font-weight: 700;
+        }
+        
+        .sidebar { 
+            width: 280px; 
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; 
+            overflow-y: auto; 
+            font-size: 13px; 
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .sidebar h3 { 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #22c55e;
+            margin-bottom: 12px;
+        }
+        
+        .sidebar p { 
+            font-size: 13px; 
+            line-height: 1.6; 
+            margin-bottom: 12px;
+        }
+        
+        @media (max-width: 1400px) { 
+            .sidebar { display: none; } 
+            .slide { padding: 40px; } 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="slide-area">
+            <div class="slides-wrapper" id="wrapper">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide active title-slide" id="slide-1">
+    <div class="slide-content">
+        <h1>⚽ FENWAY BOYS SOCCER ⚽</h1>
+        <p>Fall 2026 Program Information</p>
+        <p>Three-School Co-op: Fenway • Josiah Quincy • Snowden</p>
+        <div style="display: flex; justify-content: center; gap: 40px; margin-top: 30px; flex-wrap: wrap;">
+            <img src="/team-inbox/Fenway/Soccer/Fenway_logo.webp" alt="Fenway" style="max-height: 80px; width: auto;">
+            <img src="/team-inbox/Fenway/Soccer/snowden%20logo.png" alt="Snowden" style="max-height: 80px; width: auto;">
+            <img src="/team-inbox/Fenway/Soccer/JQU%20logo.jpeg" alt="JQU" style="max-height: 80px; width: auto;">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 2: PROGRAM -->
+<div class="slide" id="slide-2">
+    <div class="slide-content">
+        <h2>Program Overview</h2>
+        <p>A three-school co-op serving Fenway High, Josiah Quincy Upper Academy, and Snowden High School.</p>
+        
+        <h3>🎯 Core Principle</h3>
+        <p style="color: #fbbf24; font-weight: 600; font-size: 20px;">Everyone who tries out makes the team (Varsity or JV)</p>
+        
+        <h3>Team Size</h3>
+        <div class="grid-3">
+            <div class="grid-col">
+                <h4>Varsity</h4>
+                <p style="font-size: 20px; font-weight: 700; margin: 8px 0;">16-18</p>
+            </div>
+            <div class="grid-col">
+                <h4>JV</h4>
+                <p style="font-size: 20px; font-weight: 700; margin: 8px 0;">12-15</p>
+            </div>
+            <div class="grid-col">
+                <h4>Total</h4>
+                <p style="font-size: 20px; font-weight: 700; margin: 8px 0;">30-35</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: COACHING STAFF -->
+<div class="slide" id="slide-3">
+    <div class="slide-content">
+        <h2>👨‍🏫 Coaching Staff</h2>
+        <div style="margin-top: 28px;">
+            <h3 style="color: #22c55e;">Head Coach: Zach English</h3>
+            <p><strong>Email:</strong> zenglish@bostonpublicschools.org</p>
+            <p style="color: rgba(255,255,255,0.85);">New to Fenway, passionate about developing players and building team culture. Open door policy - come talk anytime.</p>
+        </div>
+        <div style="margin-top: 24px;">
+            <h3 style="color: #22c55e;">Assistant Coach: Mr. Pantekidis</h3>
+            <p style="color: rgba(255,255,255,0.85);">Technical training and skill development</p>
+        </div>
+        <div style="margin-top: 24px;">
+            <h3 style="color: #22c55e;">Assistant Coach: Beni (Angel Benitez)</h3>
+            <p style="color: rgba(255,255,255,0.85);">Team leadership and peer mentoring</p>
+        </div>
+        <div style="text-align: center; margin-top: 28px;">
+            <img src="/team-inbox/Fenway/Soccer/Screenshot%202026-08-27%20at%2010.04.51%20AM.png" alt="Coach Zach" style="max-height: 200px; width: auto; border-radius: 8px;">
+            <p style="margin-top: 12px; color: #fbbf24; font-weight: 600;">Coach Zach English</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4: SEASON -->
+<div class="slide" id="slide-4">
+    <div class="slide-content">
+        <h2>📅 Season Overview</h2>
+        <div class="grid-2">
+            <div class="grid-col">
+                <h4>Regular Season</h4>
+                <p style="margin: 12px 0;">Sept 16 - Oct 23</p>
+                <p style="margin: 8px 0;">14 games total</p>
+                <p style="margin: 8px 0;">Home: Carter Field (turf)</p>
+            </div>
+            <div class="grid-col">
+                <h4>Playoffs</h4>
+                <p style="margin: 12px 0;">Oct 26 - Oct 31</p>
+                <p style="margin: 8px 0;">City Championship</p>
+                <p style="margin: 8px 0;">Final: Oct 31 @ 10 AM</p>
+            </div>
+        </div>
+        <div class="highlight" style="margin-top: 28px;">
+            <strong>🚀 First Practice:</strong> Friday, August 29 @ 4-6 PM, Carter Field
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: SCHEDULE -->
+<div class="slide" id="slide-5">
+    <div class="slide-content">
+        <h2>🏆 Game Schedule (14 Games)</h2>
+        <table class="schedule">
+            <thead>
+                <tr><th>Date</th><th>Opponent</th><th>Home/Away</th><th>Time</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>9/16</td><td>Madison Park</td><td>Away</td><td>4:00 PM</td></tr>
+                <tr><td>9/18</td><td>Boston Collegiate</td><td class="home">HOME</td><td>4:00 PM</td></tr>
+                <tr><td>9/22</td><td>O'Bryant</td><td class="home">HOME</td><td>4:00 PM</td></tr>
+                <tr><td>9/24</td><td>New Mission</td><td class="home">HOME</td><td>4:00 PM</td></tr>
+                <tr><td>9/28</td><td>Charlestown</td><td class="home">HOME</td><td>4:00 PM</td></tr>
+                <tr><td>9/30</td><td>Roxbury Prep</td><td>Away</td><td>6:00 PM</td></tr>
+                <tr><td>10/2</td><td>Neighborhood House</td><td>Away</td><td>6:30 PM</td></tr>
+                <tr><td>10/6</td><td>Madison Park</td><td class="home">HOME</td><td>4:00 PM</td></tr>
+                <tr><td>10/8</td><td>O'Bryant</td><td>Away</td><td>4:00 PM</td></tr>
+                <tr><td>10/14</td><td>New Mission</td><td>Away</td><td>4:00 PM</td></tr>
+                <tr><td>10/16</td><td>Charlestown</td><td>Away</td><td>4:00 PM</td></tr>
+                <tr><td>10/19</td><td>Boston Collegiate</td><td>Away</td><td>4:00 PM</td></tr>
+                <tr><td>10/20</td><td>English</td><td class="home">HOME</td><td>4:00 PM</td></tr>
+                <tr><td>10/23</td><td>Roxbury Prep</td><td class="home">HOME</td><td>4:00 PM</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- SLIDE 6: ELIGIBILITY -->
+<div class="slide" id="slide-6">
+    <div class="slide-content">
+        <h2>✅ Eligibility Requirements</h2>
+        <p style="color: #fbbf24; font-weight: 600; margin-bottom: 20px;">⚠️ ALL must be completed by September 1</p>
+        <ul style="margin-bottom: 24px;">
+            <li>✓ Physical Exam (valid within 13 months)</li>
+            <li>✓ Parent Consent Form (ParentSquare - REQUIRED)</li>
+            <li>✓ Student Consent Form (ParentSquare - encouraged)</li>
+            <li>✓ ASPEN Registration (student registers, not parent)</li>
+            <li>✓ Age Verification (cannot turn 19 before Sept 2)</li>
+        </ul>
+        <h3>ASPEN Requirements</h3>
+        <ul>
+            <li>GPA: Minimum 1.67</li>
+            <li>4 core courses passed (English, Math, Science, Social Studies)</li>
+        </ul>
+    </div>
+</div>
+
+<!-- SLIDE 7: PHYSICALS -->
+<div class="slide" id="slide-7">
+    <div class="slide-content">
+        <h2>💉 Getting Your Physical</h2>
+        <h3>Where to Go</h3>
+        <ul>
+            <li>Fenway Health (local, affordable)</li>
+            <li>BPS Health Services (free for BPS students)</li>
+            <li>Your primary care doctor (insurance covers it)</li>
+            <li>Urgent care centers (evening/weekend)</li>
+        </ul>
+        <h3>How to Submit</h3>
+        <ul>
+            <li>Upload in ParentSquare, OR</li>
+            <li>Email: <strong>bpsathleticphysical@bostonpublicschools.org</strong></li>
+        </ul>
+        <div class="highlight" style="margin-top: 20px;">
+            <a href="https://docs.google.com/document/d/1OpJg5-J_QaobS1pg_VL7DYZCQcqlpAxZD-Ok77-61f0/edit?usp=sharing" style="color: #22c55e; text-decoration: none; font-weight: 600;">📍 Physical Locations & Resources</a>
+        </div>
+        <div class="highlight">
+            <strong>🔥 Deadline: September 1</strong> - Get this done ASAP!
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: PARENTSQUARE -->
+<div class="slide" id="slide-8">
+    <div class="slide-content">
+        <h2>📋 ParentSquare Consent Forms</h2>
+        <div class="grid-2">
+            <div class="grid-col">
+                <h4>Student Form</h4>
+                <p>Read & acknowledge. Encouraged but not required.</p>
+            </div>
+            <div class="grid-col">
+                <h4>Parent Form</h4>
+                <p><strong>REQUIRED</strong> to play. Parent/guardian must sign.</p>
+            </div>
+        </div>
+        <h3 style="margin-top: 28px;">What to Do</h3>
+        <ul>
+            <li>Check ParentSquare Digest Post from Geoffrey Walker</li>
+            <li>Complete both forms immediately</li>
+            <li>Physicals can be uploaded directly in ParentSquare</li>
+            <li>No follow-up will be sent - confirm in your account</li>
+        </ul>
+        <div class="highlight" style="margin-top: 20px;">
+            <a href="https://sis.mybps.org/aspen/fileContentViewer.do?contentItemOid=CTI000004VI2vT&userEvent=2450" style="color: #22c55e; text-decoration: none; font-weight: 600;">📋 Parent Consent Form</a>
+            &nbsp;&nbsp;
+            <a href="https://www.parentsquare.com/feeds/83826554" style="color: #22c55e; text-decoration: none; font-weight: 600;">📱 ParentSquare</a>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 9: ASPEN -->
+<div class="slide" id="slide-9">
+    <div class="slide-content">
+        <h2>🖥️ ASPEN Registration</h2>
+        <div class="highlight">
+            <strong>CRITICAL:</strong> The STUDENT must register (not parent). Use a computer, not mobile device.
+        </div>
+        <h3 style="margin-top: 28px;">How to Register</h3>
+        <ul>
+            <li>Look for SY2026-2027 registration link in ParentSquare</li>
+            <li>Use a computer (NOT mobile device)</li>
+            <li>Complete your information and submit</li>
+            <li>Confirm in your account</li>
+        </ul>
+        <div class="highlight" style="margin-top: 20px;">
+            <a href="https://bostonpublicschools.helpdocs.io/article/d2mh1fgcyv-how-to-register-for-athletics" style="color: #22c55e; text-decoration: none; font-weight: 600;">📖 BPS Athletics Registration Guide</a>
+        </div>
+        <h3>Requirements</h3>
+        <ul>
+            <li>GPA: 1.67 minimum</li>
+            <li>4 core courses passed</li>
+            <li>Age: Cannot turn 19 before Sept 2</li>
+        </ul>
+    </div>
+</div>
+
+<!-- SLIDE 10: PRACTICE -->
+<div class="slide" id="slide-10">
+    <div class="slide-content">
+        <h2>🏃 Practice Schedule</h2>
+        <h3>Preseason (Aug 24 - Sept 4)</h3>
+        <ul>
+            <li>Time: 4:00-6:00 PM daily</li>
+            <li>Location: Carter Field (turf)</li>
+            <li>Max 13 practices (MIAA limit)</li>
+        </ul>
+        <h3>Regular Season (Sept 5+)</h3>
+        <ul>
+            <li>Time: 2:30-4:00 PM (Mon-Fri)</li>
+            <li>Varsity sessions: 4:00-5:30 PM (select days)</li>
+            <li>Location: Carter Field</li>
+        </ul>
+        <div class="highlight">
+            <a href="/team-inbox/Fenway/Soccer/Fenway%20Soccer%20Fall%20Practice%20Schedule%20%20-%20Sheet1.pdf">📥 Download Full Practice Schedule</a>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11: WHAT TO BRING -->
+<div class="slide" id="slide-11">
+    <div class="slide-content">
+        <h2>👟 What to Bring</h2>
+        <div class="grid-2">
+            <div class="grid-col">
+                <h4>Personal Gear</h4>
+                <p style="margin: 12px 0;">Soccer cleats or turf shoes</p>
+                <p style="margin: 8px 0;">Shin guards (required)</p>
+                <p style="margin: 8px 0;">Soccer socks</p>
+            </div>
+            <div class="grid-col">
+                <h4>Essentials</h4>
+                <p style="margin: 12px 0;">Water bottle (ESSENTIAL!)</p>
+                <p style="margin: 8px 0;">Athletic clothes</p>
+                <p style="margin: 8px 0;">Towel & change of clothes</p>
+            </div>
+        </div>
+        <div class="highlight" style="margin-top: 28px;">
+            <strong>We provide:</strong> Team jersey (after tryouts), shin pads if needed
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 12: CULTURE -->
+<div class="slide" id="slide-12">
+    <div class="slide-content">
+        <h2>💪 Team Culture & Values</h2>
+        <div class="grid-2">
+            <div class="grid-col">
+                <h4>Respect</h4>
+                <p>For teammates, opponents, coaches</p>
+            </div>
+            <div class="grid-col">
+                <h4>Effort</h4>
+                <p>Give your best every day</p>
+            </div>
+            <div class="grid-col">
+                <h4>Growth</h4>
+                <p>Learn from every practice</p>
+            </div>
+            <div class="grid-col">
+                <h4>Leadership</h4>
+                <p>Lead by example</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 13: CONTACTS -->
+<div class="slide" id="slide-13">
+    <div class="slide-content">
+        <h2>📞 Key Contacts</h2>
+        <h3>Fenway High</h3>
+        <ul>
+            <li><strong>Head Coach:</strong> Zach English | zenglish@bostonpublicschools.org</li>
+            <li><strong>Athletic Director:</strong> Marcos (logistics)</li>
+        </ul>
+        <h3>Co-op Schools</h3>
+        <ul>
+            <li><strong>Josiah Quincy AC:</strong> Mackenzie Pratt | mpratt3@bostonpublicschools.org</li>
+            <li><strong>Snowden AC:</strong> Christian Orlando | corlando2@bostonpublicschools.org</li>
+        </ul>
+        <h3>Physical Submissions</h3>
+        <ul>
+            <li><strong>Email:</strong> bpsathleticphysical@bostonpublicschools.org</li>
+        </ul>
+    </div>
+</div>
+
+<!-- SLIDE 14: ACTION ITEMS -->
+<div class="slide" id="slide-14">
+    <div class="slide-content">
+        <h2>📌 Your Action Items</h2>
+        <p style="color: #fbbf24; font-weight: 600; margin-bottom: 20px;">⚠️ DEADLINE: SEPTEMBER 1</p>
+        <ul style="margin-bottom: 28px;">
+            <li>✓ Get your physical exam</li>
+            <li>✓ Complete ParentSquare consent forms</li>
+            <li>✓ Register in ASPEN (student only, computer)</li>
+            <li>✓ Verify eligibility (GPA 1.67+, 4 core courses)</li>
+            <li>✓ See you Friday, August 29 @ 4-6 PM!</li>
+        </ul>
+        <div class="highlight">
+            <strong>Questions?</strong> Email Coach Zach: <strong>zenglish@bostonpublicschools.org</strong>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 15: CLOSING -->
+<div class="slide title-slide" id="slide-15">
+    <div class="slide-content">
+        <h1 style="font-size: 56px;">Let's Build Something Great ⚽</h1>
+        <h3 style="color: rgba(255,255,255,0.95); font-size: 24px; font-weight: 300; margin-top: 16px;">First Practice: Friday, August 29</h3>
+        <p style="font-size: 18px;">4-6 PM • Carter Field</p>
+        <p style="font-size: 18px; margin-top: 30px;">All three schools welcome 🎯</p>
+    </div>
+</div>
+
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="prevSlide()">← Previous</button>
+            <div class="counter">
+                <span class="num" id="current">1</span> / <span id="total">15</span>
+            </div>
+            <button onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h3>⚽ Fenway Soccer</h3>
+        <p><strong>15 slides</strong> with all essentials: eligibility, schedule, contacts, deadlines.</p>
+        <p>Soccer-themed design. Fun and engaging.</p>
+        <hr style="margin: 12px 0; border: none; border-top: 1px solid rgba(255,255,255,0.2);"/>
+        <p><strong>Navigate:</strong> Arrow keys or buttons</p>
+        <button onclick="downloadSlideshow()" style="width: 100%; margin-top: 12px;">📥 Download</button>
+    </div>
+
+    <script>
+        let current = 1;
+        const total = document.querySelectorAll('.slide').length;
+        document.getElementById('total').textContent = total;
+
+        function show(n) {
+            const slides = document.querySelectorAll('.slide');
+            if (n > total) current = total;
+            if (n < 1) current = 1;
+            slides.forEach(s => s.classList.remove('active'));
+            slides[current - 1].classList.add('active');
+            document.getElementById('current').textContent = current;
+        }
+
+        function nextSlide() { current++; show(current); }
+        function prevSlide() { current--; show(current); }
+
+        function downloadSlideshow() {
+            const html = document.documentElement.outerHTML;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Fenway_Soccer_2026.html';
+            a.click();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        show(current);
+    </script>
+</body>
+</html>

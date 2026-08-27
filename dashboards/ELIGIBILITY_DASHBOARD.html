@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚽ Soccer Eligibility Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0d5e42 0%, #1a3a2a 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: white; text-align: center; margin-bottom: 40px; font-size: 2.5em; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+        .stat-box { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 8px; text-align: center; border: 2px solid rgba(34, 197, 94, 0.3); }
+        .stat-box h3 { color: #fbbf24; font-size: 0.9em; margin-bottom: 10px; text-transform: uppercase; }
+        .stat-box .number { font-size: 3em; font-weight: 700; color: #22c55e; }
+        .section { margin-bottom: 40px; }
+        .section-title { color: #22c55e; font-size: 1.8em; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .table { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 8px; overflow: hidden; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .table-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 15px; padding: 20px; background: rgba(34, 197, 94, 0.2); font-weight: 600; color: #fbbf24; border-bottom: 2px solid rgba(34, 197, 94, 0.3); }
+        .table-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); align-items: center; color: rgba(255,255,255,0.95); }
+        .table-row:hover { background: rgba(34, 197, 94, 0.1); }
+        .status-eligible { color: #22c55e; font-weight: 600; }
+        .status-incomplete { color: #fbbf24; font-weight: 600; }
+        .status-not-ready { color: #ef4444; font-weight: 600; }
+        .check { color: #22c55e; font-weight: bold; }
+        .cross { color: #ef4444; font-weight: bold; }
+        @media (max-width: 768px) {
+            .stats { grid-template-columns: 1fr; }
+            .table-header, .table-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚽ Soccer Eligibility Dashboard</h1>
+
+        <div class="stats">
+            <div class="stat-box">
+                <h3>Eligible</h3>
+                <div class="number">2</div>
+            </div>
+            <div class="stat-box">
+                <h3>Missing Consent</h3>
+                <div class="number">3</div>
+            </div>
+            <div class="stat-box">
+                <h3>Not Ready</h3>
+                <div class="number">2</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">✅ ELIGIBLE (Ready to Play)</div>
+            <div class="table">
+                <div class="table-header">
+                    <div>Student Name</div>
+                    <div>ID</div>
+                    <div>Physical</div>
+                    <div>Consent</div>
+                    <div>Status</div>
+                </div>
+                <div class="table-row">
+                    <div>Colvin, Calum Jonas Shenk</div>
+                    <div>360468</div>
+                    <div class="check">✓</div>
+                    <div class="check">✓</div>
+                    <div class="status-eligible">ELIGIBLE</div>
+                </div>
+                <div class="table-row">
+                    <div>Flores Ballesteros, Aisak Alexi</div>
+                    <div>393635</div>
+                    <div class="check">✓</div>
+                    <div class="check">✓</div>
+                    <div class="status-eligible">ELIGIBLE</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">⚠️ MISSING CONSENT FORM (Have Physical)</div>
+            <div class="table">
+                <div class="table-header">
+                    <div>Student Name</div>
+                    <div>ID</div>
+                    <div>Physical</div>
+                    <div>Consent</div>
+                    <div>Action</div>
+                </div>
+                <div class="table-row">
+                    <div>Pereira Correia, Jayc</div>
+                    <div>356719</div>
+                    <div class="check">✓</div>
+                    <div class="cross">✗</div>
+                    <div>Get consent form</div>
+                </div>
+                <div class="table-row">
+                    <div>Rodrigues Lopes, Jailin Pedro</div>
+                    <div>414167</div>
+                    <div class="check">✓</div>
+                    <div class="cross">✗</div>
+                    <div>Get consent form</div>
+                </div>
+                <div class="table-row">
+                    <div>Brooks, Johann Cleveland</div>
+                    <div>374342</div>
+                    <div class="check">✓</div>
+                    <div class="cross">✗</div>
+                    <div>Get consent form</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🔴 NOT READY (Missing Both)</div>
+            <div class="table">
+                <div class="table-header">
+                    <div>Student Name</div>
+                    <div>ID</div>
+                    <div>Physical</div>
+                    <div>Consent</div>
+                    <div>Action</div>
+                </div>
+                <div class="table-row">
+                    <div>Andres Roman, Joshua</div>
+                    <div>386284</div>
+                    <div class="cross">✗</div>
+                    <div class="cross">✗</div>
+                    <div>Get both ASAP</div>
+                </div>
+                <div class="table-row">
+                    <div>Guardado Arias, Junior Alexander</div>
+                    <div>375697</div>
+                    <div class="cross">✗</div>
+                    <div class="cross">✗</div>
+                    <div>Get both ASAP</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; color: rgba(255,255,255,0.7);">
+            <p>Last Updated: August 27, 2026</p>
+            <p>Contact: Christian Orlando (Snowden) - corlando2@bostonpublicschools.org</p>
+        </div>
+    </div>
+</body>
+</html>
