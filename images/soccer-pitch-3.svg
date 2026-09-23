@@ -1,0 +1,26 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="grass3" cx="50%" cy="40%">
+      <stop offset="0%" style="stop-color:#33bb44;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d4620;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grass3)"/>
+  <!-- White pitch lines -->
+  <line x1="600" y1="0" x2="600" y2="800" stroke="white" stroke-width="6"/>
+  <circle cx="600" cy="400" r="70" fill="none" stroke="white" stroke-width="6"/>
+  <circle cx="600" cy="400" r="8" fill="white"/>
+  <!-- Left side -->
+  <rect x="0" y="150" width="300" height="500" fill="none" stroke="white" stroke-width="6"/>
+  <rect x="0" y="200" width="200" height="400" fill="none" stroke="white" stroke-width="6"/>
+  <circle cx="100" cy="400" r="30" fill="none" stroke="white" stroke-width="4"/>
+  <!-- Right side -->
+  <rect x="900" y="150" width="300" height="500" fill="none" stroke="white" stroke-width="6"/>
+  <rect x="1000" y="200" width="200" height="400" fill="none" stroke="white" stroke-width="6"/>
+  <circle cx="1100" cy="400" r="30" fill="none" stroke="white" stroke-width="4"/>
+  <!-- Corner arcs -->
+  <path d="M 0 40 A 40 40 0 0 1 40 0" fill="none" stroke="white" stroke-width="4"/>
+  <path d="M 1160 0 A 40 40 0 0 1 1200 40" fill="none" stroke="white" stroke-width="4"/>
+  <path d="M 1200 760 A 40 40 0 0 1 1160 800" fill="none" stroke="white" stroke-width="4"/>
+  <path d="M 40 800 A 40 40 0 0 1 0 760" fill="none" stroke="white" stroke-width="4"/>
+</svg>

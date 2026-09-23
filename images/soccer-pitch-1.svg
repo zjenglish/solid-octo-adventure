@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grass1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d9944;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a6b2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d4620;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grass1)"/>
+  <!-- Field markings -->
+  <line x1="600" y1="0" x2="600" y2="800" stroke="white" stroke-width="6"/>
+  <circle cx="600" cy="400" r="70" fill="none" stroke="white" stroke-width="6"/>
+  <circle cx="600" cy="400" r="8" fill="white"/>
+  <!-- Left goal area -->
+  <rect x="0" y="200" width="200" height="400" fill="none" stroke="white" stroke-width="6"/>
+  <!-- Left penalty area -->
+  <rect x="0" y="150" width="300" height="500" fill="none" stroke="white" stroke-width="6"/>
+  <!-- Left goal -->
+  <circle cx="100" cy="400" r="30" fill="none" stroke="white" stroke-width="4"/>
+  <!-- Right penalty area -->
+  <rect x="900" y="150" width="300" height="500" fill="none" stroke="white" stroke-width="6"/>
+  <!-- Right goal area -->
+  <rect x="1000" y="200" width="200" height="400" fill="none" stroke="white" stroke-width="6"/>
+  <!-- Right goal -->
+  <circle cx="1100" cy="400" r="30" fill="none" stroke="white" stroke-width="4"/>
+  <!-- Corner arcs -->
+  <circle cx="0" cy="0" r="50" fill="none" stroke="white" stroke-width="4"/>
+  <circle cx="1200" cy="0" r="50" fill="none" stroke="white" stroke-width="4"/>
+  <circle cx="0" cy="800" r="50" fill="none" stroke="white" stroke-width="4"/>
+  <circle cx="1200" cy="800" r="50" fill="none" stroke="white" stroke-width="4"/>
+</svg>
