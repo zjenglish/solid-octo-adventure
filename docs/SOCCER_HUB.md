@@ -1,5 +1,5 @@
 # SOCCER HUB: Master Soccer Repository — COMPLETE
-**Last Updated:** Sept 23, 2026 (results through 9/22)  
+**Last Updated:** Sept 24, 2026 (results through 9/24)  
 **Maintained By:** Sidekick (Soccer Coordinator)  
 **Purpose:** Single source of truth for all soccer program info — logistics, compliance, contacts, coaching, communication log
 
@@ -38,14 +38,14 @@
 **REGULAR SEASON:** Sept 16 - Oct 23, 2026 (14 games)  
 **PLAYOFFS:** Oct 26 - Oct 31, 2026 (City Championship)
 
-**RECORD: 1-2** (updated Sept 23)
+**RECORD: 1-3** (updated Sept 24)
 
 | Date | Day | Opponent | Home/Away | Site | Time | Type | Result |
 |------|-----|----------|-----------|------|------|------|--------|
 | 9/16 | Wed | Madison Park | Away | Madison Park-O'Bryant | 4:00 PM | South | **L 0-2** |
 | 9/18 | Fri | Boston Collegiate | Home | Carter | 4:00 PM | NL | **W 6-0** |
 | 9/22 | Tue | O'Bryant | Home | Carter | 4:00 PM | South | **L 1-2** |
-| 9/24 | Thu | New Mission | Home | Carter | 4:00 PM | South |
+| 9/24 | Thu | New Mission | Home | Carter | 4:00 PM | South | **L 0-3** |
 | 9/28 | Mon | Charlestown | Home | Carter | 4:00 PM | South |
 | 9/30 | Wed | Roxbury Prep | Away | West Roxbury | 6:00 PM | NL |
 | 10/2 | Fri | Neighborhood House | Away | Moakley | 6:30 PM | NL |
