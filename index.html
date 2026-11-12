@@ -596,6 +596,14 @@
                 font-size: 2rem;
             }
         }
+        .team-banner{margin:0 0 2rem;border-radius:10px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12);background:#0d2b1a}
+        .team-banner img{width:100%;height:auto;display:block}
+        .team-banner .cap{color:#fff;padding:.75rem 1rem;font-weight:700;font-size:1.05rem}
+        .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem;margin-bottom:2.5rem}
+        .gallery figure{margin:0;border-radius:8px;overflow:hidden;background:#eee}
+        .gallery img{width:100%;height:200px;object-fit:cover;display:block}
+        .gallery figcaption{font-size:.85rem;padding:.4rem .6rem;color:#444;background:#fff}
+        @media (max-width:480px){.gallery{grid-template-columns:1fr 1fr;gap:.5rem}.gallery img{height:140px}.gallery figcaption{font-size:.75rem}}
     </style>
 </head>
 <body>
@@ -657,6 +665,11 @@
         </div>
     </div>
 
+    <div class="team-banner">
+        <img src="images/team/team-photo.jpg" alt="2026 Snowden Fenway boys soccer team photo">
+        <div class="cap">2026 Snowden Fenway Boys Soccer: first MIAA State Tournament trip in Fenway history</div>
+    </div>
+
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-label">Total Players</div>
@@ -667,8 +680,8 @@
             <div class="stat-value">4</div>
         </div>
         <div class="stat-card">
-            <div class="stat-label">Record (W-L)</div>
-            <div class="stat-value">2-4</div>
+            <div class="stat-label">Record (W-L-T)</div>
+            <div class="stat-value">7-5-2</div>
         </div>
     </div>
 
@@ -715,8 +728,8 @@
         </div>
 
         <div style="background: white; border: 2px solid var(--primary); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-            <h2 style="color: var(--primary); margin-bottom: 0.5rem;">📣 Season So Far: 2-4</h2>
-            <p style="color: var(--text-light); margin-bottom: 1.25rem; font-size: 0.95rem;">Two wins, four losses, and two of those losses by a single goal. Updated October 8.</p>
+            <h2 style="color: var(--primary); margin-bottom: 0.5rem;">📣 Regular Season: 7-5-2</h2>
+            <p style="color: var(--text-light); margin-bottom: 1.25rem; font-size: 0.95rem;">Seven wins, five losses, two ties, and the first MIAA State Tournament bid in Fenway history. Then a 1-0 win over McCann Tech in the Round of 32. Updated November 12.</p>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
                 <div style="padding: 1rem; background: #fdecea; border-left: 4px solid var(--danger); border-radius: 4px;">
                     <strong>Game 1, Sept 16 at Madison Park</strong><br>
@@ -749,8 +762,8 @@
                     <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.5;">Under the lights at Moakley. Fenway scored twice and came up one goal short.</p>
                 </div>
             </div>
-            <p style="margin-top: 1.25rem; font-weight: 600;">🎯 Next up: O'Bryant, Thursday Oct 8, 4:00 PM at Madison Park-O'Bryant. Come out and support the Panthers.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">Boston City South standings (as of Sept 23): Fenway co-op sits 4th. MaxPreps lists this team under Community Academy of Science &amp; Health. <a href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/standings/" target="_blank" style="color: var(--primary);">Standings</a> | <a href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/schedule/" target="_blank" style="color: var(--primary);">Schedule</a></p>
+            <p style="margin-top: 1.25rem; font-weight: 600;">🎯 Next up: MIAA Division 5 Round of 16 at #2 Dearborn STEM, Thursday Nov 12. Come out and support the Panthers.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">MaxPreps lists this team under Community Academy of Science &amp; Health. <a href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/standings/" target="_blank" style="color: var(--primary);">Standings</a> | <a href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/schedule/" target="_blank" style="color: var(--primary);">Schedule</a></p>
             <div style="margin-top: 1.25rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, #FF8C42 0%, #E67E22 100%); color: white; border-radius: 8px; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
                 <span style="font-size: 2rem;">🏆</span>
                 <div>
@@ -762,7 +775,27 @@
             </div>
         </div>
 
-        <h2 style="margin-bottom: 1.5rem; color: var(--primary);">⚽ 2026-2027 Schedule: 18 Games</h2>
+        <h2 style="margin-bottom: 1rem; color: var(--primary);">📸 Team Photos</h2>
+        <div class="gallery">
+            <figure><img src="images/team/night-practice.jpg" alt="Practice under the lights" loading="lazy"><figcaption>Practice under the lights</figcaption></figure>
+            <figure><img src="images/team/goal-celebration.jpg" alt="Goal celebration" loading="lazy"><figcaption>Goal celebration</figcaption></figure>
+            <figure><img src="images/team/goal-pose.jpg" alt="Having fun at the goal" loading="lazy"><figcaption>Having fun at the goal</figcaption></figure>
+            <figure><img src="images/team/senior-night.jpg" alt="After the game" loading="lazy"><figcaption>After the game</figcaption></figure>
+            <figure><img src="images/team/hands-in.jpg" alt="Hands in" loading="lazy"><figcaption>Hands in</figcaption></figure>
+            <figure><img src="images/team/sunset-crew.jpg" alt="Players and Coach English" loading="lazy"><figcaption>Players and Coach English</figcaption></figure>
+            <figure><img src="images/team/team-talk.jpg" alt="Coach English and the team" loading="lazy"><figcaption>Coach English and the team</figcaption></figure>
+            <figure><img src="images/team/game-wide.jpg" alt="Game day" loading="lazy"><figcaption>Game day</figcaption></figure>
+            <figure><img src="images/team/game-action.jpg" alt="Game action" loading="lazy"><figcaption>Game action</figcaption></figure>
+            <figure><img src="images/team/game-action-2.jpg" alt="Game action" loading="lazy"><figcaption>Game action</figcaption></figure>
+            <figure><img src="images/team/postgame-huddle.jpg" alt="Postgame huddle" loading="lazy"><figcaption>Postgame huddle</figcaption></figure>
+            <figure><img src="images/team/postgame-huddle-2.jpg" alt="Postgame talk" loading="lazy"><figcaption>Postgame talk</figcaption></figure>
+            <figure><img src="images/team/practice-skyline.jpg" alt="Practice at Carter" loading="lazy"><figcaption>Practice at Carter</figcaption></figure>
+            <figure><img src="images/team/practice-skyline-2.jpg" alt="Scrimmage at Carter" loading="lazy"><figcaption>Scrimmage at Carter</figcaption></figure>
+            <figure><img src="images/team/coaches-sideline.jpg" alt="On the sideline" loading="lazy"><figcaption>On the sideline</figcaption></figure>
+            <figure><img src="images/team/coach-sideline.jpg" alt="Coach English" loading="lazy"><figcaption>Coach English</figcaption></figure>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem; color: var(--primary);">⚽ 2026 Schedule and Results</h2>
         <div class="schedule-grid">
             <div class="game-card">
                 <img src="images/carter-soccer-1.jpeg" alt="Soccer at Carter Field" class="schedule-image">
@@ -816,9 +849,10 @@
             </div>
             <div class="game-card">
                 <img src="images/soccer-action-3.jpg" alt="Team huddle before kickoff" class="schedule-image">
-                <div class="game-date">Wednesday, September 30, RESULT PENDING</div>
+                <div class="game-date">Wednesday, September 30</div>
                 <div class="game-opponent">vs Roxbury Prep</div>
-                <div class="game-details"><strong>Time:</strong> 6:00 PM<br><strong>Location:</strong> West Roxbury (Away)</div>
+                <div class="game-details"><strong>Final:</strong> L 1-2<br><strong>Location:</strong> West Roxbury (Away)</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-danger">LOSS</span></div>
             </div>
             <div class="game-card">
                 <img src="images/soccer-action-1.jpg" alt="Soccer under the lights" class="schedule-image">
@@ -831,71 +865,63 @@
                 <img src="images/game-1006.jpg" alt="Ball in the back of the net" class="schedule-image">
                 <div class="game-date">Tuesday, October 6</div>
                 <div class="game-opponent">vs Madison Park</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> Carter Field</div>
+                <div class="game-details"><strong>Final:</strong> W 2-1<br><strong>Location:</strong> Carter Field</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
             </div>
-            <div class="game-card upcoming">
+            <div class="game-card">
                 <img src="images/game-1008.jpg" alt="Two players going up for a header" class="schedule-image">
                 <div class="game-date">Thursday, October 8</div>
                 <div class="game-opponent">vs O'Bryant</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> Madison Park-O'Bryant</div>
+                <div class="game-details"><strong>Final:</strong> L 0-3<br><strong>Location:</strong> Madison Park-O'Bryant</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-danger">LOSS</span></div>
             </div>
             <div class="game-card">
                 <img src="images/game-1014.jpg" alt="City soccer field in autumn" class="schedule-image">
                 <div class="game-date">Wednesday, October 14</div>
                 <div class="game-opponent">vs New Mission</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> Reservation Road</div>
+                <div class="game-details"><strong>Final:</strong> W 4-1<br><strong>Location:</strong> Reservation Road</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
             </div>
             <div class="game-card">
                 <img src="images/game-1016.jpg" alt="Goalkeeper gloves on a soccer ball" class="schedule-image">
                 <div class="game-date">Friday, October 16</div>
                 <div class="game-opponent">vs Charlestown</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> Charlestown</div>
+                <div class="game-details"><strong>Final:</strong> T 1-1<br><strong>Location:</strong> Charlestown</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-warning">TIE</span></div>
             </div>
             <div class="game-card">
                 <img src="images/game-1019.jpg" alt="Ball at the center line before kickoff" class="schedule-image">
                 <div class="game-date">Monday, October 19</div>
                 <div class="game-opponent">vs Boston Collegiate</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> Pope John Paul II</div>
+                <div class="game-details"><strong>Final:</strong> W 6-1<br><strong>Location:</strong> Pope John Paul II</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
             </div>
             <div class="game-card">
                 <img src="images/game-1020.jpg" alt="Player dribbling down the wing" class="schedule-image">
                 <div class="game-date">Tuesday, October 20</div>
                 <div class="game-opponent">vs English</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> Carter Field</div>
+                <div class="game-details"><strong>Final:</strong> W 6-0<br><strong>Location:</strong> Carter Field</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
             </div>
             <div class="game-card">
                 <img src="images/game-1023.jpg" alt="Water bottles and soccer balls on the bench" class="schedule-image">
                 <div class="game-date">Friday, October 23</div>
                 <div class="game-opponent">vs Roxbury Prep</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> Carter Field</div>
+                <div class="game-details"><strong>Final:</strong> 0-0 (as listed by MIAA)<br><strong>Location:</strong> Carter Field</div>
             </div>
             <div class="game-card">
-                <img src="images/game-1026.jpg" alt="Field under stadium lights" class="schedule-image">
-                <div class="game-date">Monday, October 26</div>
-                <div class="game-opponent">vs South #1</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> North #4<br><strong>Type:</strong> Play-In</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-warning">PLAYOFFS</span></div>
+                <img src="images/team/hands-in.jpg" alt="Hands in" class="schedule-image">
+                <div class="game-date">Tuesday, November 10</div>
+                <div class="game-opponent">vs #18 McCann Tech</div>
+                <div class="game-details"><strong>Final:</strong> W 1-0<br><strong>Location:</strong> Carter Field<br><strong>Type:</strong> MIAA D5 Round of 32</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span> <span class="badge badge-warning" style="margin-left: 0.5rem;">STATE TOURNAMENT</span></div>
             </div>
-            <div class="game-card">
-                <img src="images/game-1028a.jpg" alt="Referee whistle and yellow card" class="schedule-image">
-                <div class="game-date">Wednesday, October 28</div>
-                <div class="game-opponent">North #1 vs TBD</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> North #1<br><strong>Type:</strong> City SF</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-danger">SEMI-FINAL</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1028b.jpg" alt="Ball at the corner arc" class="schedule-image">
-                <div class="game-date">Wednesday, October 28</div>
-                <div class="game-opponent">North #3 vs North #2</div>
-                <div class="game-details"><strong>Time:</strong> 4:00 PM<br><strong>Location:</strong> North #2<br><strong>Type:</strong> City SF</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-danger">SEMI-FINAL</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1031.jpg" alt="Championship trophy and soccer ball" class="schedule-image">
-                <div class="game-date">Saturday, October 31</div>
-                <div class="game-opponent">TBD City Final</div>
-                <div class="game-details"><strong>Time:</strong> 10:00 AM<br><strong>Location:</strong> Madison Park</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-success">CHAMPIONSHIP</span></div>
+            <div class="game-card upcoming">
+                <img src="images/team/night-practice.jpg" alt="Practice under the lights" class="schedule-image">
+                <div class="game-date">Thursday, November 12</div>
+                <div class="game-opponent">at #2 Dearborn STEM</div>
+                <div class="game-details"><strong>Type:</strong> MIAA D5 Round of 16</div>
+                <div style="margin-top: 1rem;"><span class="badge badge-warning">STATE TOURNAMENT</span></div>
             </div>
         </div>
     </div>
