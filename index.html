@@ -1,1168 +1,387 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fenway Boys Soccer - 2026-27</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #2D7A3E;
-            --accent: #FF8C42;
-            --bg: #F8F9FA;
-            --text: #212529;
-            --text-light: #6C757D;
-            --border: #DEE2E6;
-            --success: #28A745;
-            --warning: #FFC107;
-            --danger: #DC3545;
-            --info: #17A2B8;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background-color: var(--bg);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, #1a4d2e 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .badge-success { background: var(--success); color: white; }
-        .badge-warning { background: var(--warning); color: black; }
-        .badge-danger { background: var(--danger); color: white; }
-        .badge-info { background: var(--info); color: white; }
-
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border);
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            padding: 1rem 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            color: var(--text-light);
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-            font-weight: 600;
-        }
-
-        .tab-btn:hover {
-            color: var(--primary);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .game-card {
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .game-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(45, 122, 62, 0.15);
-        }
-
-        .game-card.upcoming {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border: 3px solid var(--primary);
-            box-shadow: 0 6px 20px rgba(45, 122, 62, 0.25);
-        }
-
-        .game-card.upcoming::before {
-            content: "🎯 NEXT GAME";
-            display: block;
-            background: var(--primary);
-            color: white;
-            padding: 0.5rem;
-            border-radius: 4px 4px 0 0;
-            margin: -1.5rem -1.5rem 1rem -1.5rem;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .game-date {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-        }
-
-        .game-opponent {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .game-details {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            margin: 0.5rem 0;
-        }
-
-        .school-section {
-            margin-bottom: 3rem;
-        }
-
-        .school-header {
-            background: linear-gradient(135deg, var(--primary) 0%, #1a4d2e 100%);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px 8px 0 0;
-            font-size: 1.3rem;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .player-count {
-            background: var(--accent);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .roster-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border: 1px solid var(--border);
-            border-top: none;
-        }
-
-        .roster-table th {
-            background: #f5f5f5;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid var(--border);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .roster-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .roster-table tr:hover {
-            background: #f9f9f9;
-        }
-
-        .player-name {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .grade {
-            background: #f0f0f0;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin: 0.25rem;
-        }
-
-        .status-ok {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-needs {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .stat-card {
-            background: white;
-            border-left: 4px solid var(--primary);
-            padding: 1.5rem;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .header-logos {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .header-logos img {
-            height: 50px;
-            object-fit: contain;
-            filter: brightness(1.1);
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            object-position: center bottom;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            display: block;
-        }
-
-        .school-header img {
-            height: 45px;
-            margin-right: 0.75rem;
-            object-fit: contain;
-        }
-
-        .schedule-image {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .panther-mascot {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            margin: 0 auto 1rem;
-            display: block;
-        }
-
-        .accordion {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-
-        .accordion-header {
-            padding: 1.25rem;
-            background: linear-gradient(135deg, var(--primary) 0%, #1a4d2e 100%);
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .accordion-header:hover {
-            background: linear-gradient(135deg, #1a4d2e 0%, var(--primary) 100%);
-        }
-
-        .accordion-toggle {
-            font-size: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .accordion-toggle.active {
-            transform: rotate(180deg);
-        }
-
-        .accordion-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .accordion-body.active {
-            max-height: 2000px;
-            transition: max-height 0.3s ease-in;
-        }
-
-        .accordion-content {
-            padding: 1.5rem;
-            background: white;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .soccer-ball {
-            display: inline-block;
-            animation: bounce 2s infinite;
-            font-size: 2rem;
-            margin: 0 0.5rem;
-        }
-
-        .soccer-ball:nth-child(2) { animation-delay: 0.2s; }
-        .soccer-ball:nth-child(3) { animation-delay: 0.4s; }
-        .soccer-ball:nth-child(4) { animation-delay: 0.6s; }
-
-        /* Custom cursor */
-        * {
-            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="white" stroke="%232D7A3E" stroke-width="2"/><circle cx="16" cy="16" r="12" fill="none" stroke="%23FF8C42" stroke-width="1.5" opacity="0.7"/><line x1="16" y1="4" x2="16" y2="28" stroke="%232D7A3E" stroke-width="0.5" opacity="0.5"/><line x1="4" y1="16" x2="28" y2="16" stroke="%232D7A3E" stroke-width="0.5" opacity="0.5"/></svg>') 16 16, auto;
-        }
-
-        /* Rolling soccer ball animation */
-        @keyframes rollBall {
-            0% {
-                left: -50px;
-                transform: rotateZ(0deg);
-            }
-            100% {
-                left: 100vw;
-                transform: rotateZ(360deg);
-            }
-        }
-
-        .rolling-ball {
-            position: fixed;
-            top: 50%;
-            left: 0;
-            font-size: 3rem;
-            pointer-events: none;
-            z-index: 9999;
-            animation: rollBall 4s ease-in-out forwards;
-            text-shadow: 0 2px 8px rgba(45, 122, 62, 0.3);
-        }
-
-        .rolling-ball.hidden {
-            display: none;
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 768px) {
-            body {
-                font-size: 15px;
-            }
-
-            .container {
-                padding: 12px;
-            }
-
-            .header {
-                padding: 1.5rem 1rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-                margin-bottom: 0.25rem;
-            }
-
-            .header p {
-                font-size: 0.95rem;
-            }
-
-            .hero-image {
-                height: 300px;
-                margin-bottom: 1.5rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .stat-card {
-                padding: 1rem;
-            }
-
-            .stat-label {
-                font-size: 0.8rem;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-            }
-
-            .tabs {
-                gap: 0.25rem;
-                margin-bottom: 1rem;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .tab-btn {
-                padding: 0.75rem 1rem;
-                font-size: 0.9rem;
-                white-space: nowrap;
-                min-width: fit-content;
-                flex-shrink: 0;
-            }
-
-            .schedule-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .game-card {
-                padding: 1.25rem;
-            }
-
-            .game-opponent {
-                font-size: 1.25rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .game-details {
-                font-size: 0.9rem;
-                line-height: 1.5;
-            }
-
-            .schedule-image {
-                margin-bottom: 0.75rem;
-            }
-
-            .accordion-header {
-                padding: 1rem;
-                font-size: 0.95rem;
-            }
-
-            .accordion-content {
-                padding: 1rem;
-            }
-
-            .badge {
-                padding: 0.4rem 0.75rem;
-                font-size: 0.8rem;
-            }
-
-            .school-header {
-                padding: 0.75rem 1rem;
-                font-size: 1.1rem;
-            }
-
-            .player-count {
-                padding: 0.2rem 0.6rem;
-                font-size: 0.8rem;
-            }
-
-            .roster-table th {
-                padding: 0.75rem;
-                font-size: 0.8rem;
-            }
-
-            .roster-table td {
-                padding: 0.75rem;
-                font-size: 0.9rem;
-            }
-
-            .status-badge {
-                padding: 0.3rem 0.6rem;
-                font-size: 0.75rem;
-            }
-
-            a[style*="padding: 0.75rem"] {
-                padding: 0.6rem 0.75rem !important;
-                font-size: 0.9rem !important;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .header div:last-child {
-                margin-top: 1rem;
-            }
-
-            .soccer-ball {
-                font-size: 1.5rem;
-                margin: 0 0.25rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
-            }
-
-            .tab-btn {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.8rem;
-            }
-
-            .game-card.upcoming::before {
-                font-size: 0.8rem;
-                padding: 0.4rem;
-            }
-
-            .rolling-ball {
-                font-size: 2rem;
-            }
-        }
-        .team-banner{margin:0 0 2rem;border-radius:10px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12);background:#0d2b1a}
-        .team-banner img{width:100%;height:auto;display:block}
-        .team-banner .cap{color:#fff;padding:.75rem 1rem;font-weight:700;font-size:1.05rem}
-        .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem;margin-bottom:2.5rem}
-        .gallery figure{margin:0;border-radius:8px;overflow:hidden;background:#eee}
-        .gallery img{width:100%;height:200px;object-fit:cover;display:block}
-        .gallery figcaption{font-size:.85rem;padding:.4rem .6rem;color:#444;background:#fff}
-        @media (max-width:480px){.gallery{grid-template-columns:1fr 1fr;gap:.5rem}.gallery img{height:140px}.gallery figcaption{font-size:.75rem}}
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fenway Boys Soccer</title>
+<meta name="description" content="Snowden Fenway boys soccer, 2026 season: schedule, results, roster and photos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0B3D2E; --green-2:#125740; --green-soft:#E3EFE8;
+  --gold:#F2C230; --gold-soft:#FDF3D3;
+  --bg:#F5F3EC; --surface:#FFFFFF; --ink:#13201A; --muted:#5E6B64; --line:#E1DED3;
+  --win:#1F8A4C; --loss:#B23A3A; --tie:#8A7A2E;
+  --r:16px;
+  --display:"Barlow Condensed",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--green-2)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+/* Hero: skyline practice photo, dark green wash, team photo clipped in the corner */
+.hero{position:relative;color:#fff;overflow:hidden;background:var(--green)}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(11,61,46,.96) 0%,rgba(11,61,46,.82) 45%,rgba(11,61,46,.35) 100%)}
+.hero-in{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;padding:28px 16px 30px;max-width:1080px;margin:0 auto}
+.logos{display:flex;gap:10px;align-items:center;margin-bottom:18px}
+.logos img{height:40px;width:auto;object-fit:contain;background:#fff;border-radius:10px;padding:4px}
+.eyebrow{font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(44px,8vw,80px);line-height:.92;letter-spacing:.01em;margin:6px 0 10px;text-transform:uppercase}
+.sub{font-size:16px;opacity:.9;max-width:520px;margin:0}
+.badge{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--gold);color:var(--green);font-weight:700;font-size:14px;padding:7px 14px;border-radius:999px}
+.clip{width:230px;background:#fff;padding:8px 8px 6px;border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.35);transform:rotate(2.5deg);cursor:zoom-in;border:0;display:block;transition:transform .25s}
+.clip:hover{transform:rotate(0) scale(1.03)}
+.clip img{width:100%;aspect-ratio:881/307;object-fit:cover;border-radius:6px}
+.clip span{display:block;text-align:center;font-size:12px;font-weight:600;color:var(--muted);padding-top:5px}
+
+/* Stat strip */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:-22px;position:relative;z-index:2}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:0 6px 18px rgba(19,32,26,.06)}
+.stat b{display:block;font-family:var(--display);font-size:32px;line-height:1;color:var(--green)}
+.stat span{font-size:13px;color:var(--muted);font-weight:600}
+
+/* Next game */
+.next{margin-top:20px;background:var(--green);color:#fff;border-radius:var(--r);padding:18px 20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.next .dt{background:var(--gold);color:var(--green);border-radius:12px;padding:8px 14px;text-align:center;font-family:var(--display);line-height:1}
+.next .dt b{display:block;font-size:30px}
+.next .dt small{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.next .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.next .t{font-family:var(--display);font-size:26px;font-weight:700;line-height:1.1}
+.next .s{font-size:14px;opacity:.85}
+
+/* Tabs */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:26px 0 16px;border-bottom:2px solid var(--line)}
+.tab{border:0;background:none;padding:10px 14px;font-weight:700;font-size:15px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab[aria-selected="true"]{color:var(--green);border-bottom-color:var(--gold)}
+.tab:hover{color:var(--green)}
+.panel[hidden]{display:none}
+h2{font-family:var(--display);font-size:30px;font-weight:700;margin:0 0 4px;color:var(--green);text-transform:uppercase;letter-spacing:.01em}
+.lede{color:var(--muted);margin:0 0 16px;font-size:15px}
+
+/* Schedule */
+.games{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.game{background:var(--surface);border:1px solid var(--line);border-radius:14px;display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px}
+.game .d{text-align:center;font-family:var(--display);line-height:1;color:var(--green)}
+.game .d b{display:block;font-size:26px}
+.game .d small{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.game .o{font-weight:700}
+.game .m{font-size:13.5px;color:var(--muted)}
+.game .n{font-size:14px;margin-top:4px}
+.res{font-family:var(--display);font-weight:700;font-size:20px;padding:4px 12px;border-radius:10px;white-space:nowrap;text-align:center;min-width:76px}
+.res.W{background:#E2F3E8;color:var(--win)} .res.L{background:#F8E3E3;color:var(--loss)} .res.T{background:#F3EFD9;color:var(--tie)} .res.U{background:var(--gold-soft);color:var(--green)}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--gold);color:var(--green);border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:2px}
+.sect{font-family:var(--display);font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:22px 0 10px}
+
+/* Roster */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.f{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px;cursor:pointer}
+.f[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.p{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:center}
+.num{width:52px;height:52px;border-radius:12px;background:var(--green);color:var(--gold);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:26px}
+.p .nm{font-weight:700;line-height:1.25}
+.p .dt2{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:3px}
+.sch{font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 7px}
+.sch.Fenway{background:#E2F3E8;color:#1F6B43} .sch.Snowden{background:#FDF0C8;color:#7A5B00} .sch.CASH{background:#EDE4F6;color:#5B3C88} .sch.Quincy{background:#E1ECF7;color:#25578A}
+.cap{font-size:11px;font-weight:800;background:var(--gold);color:var(--green);border-radius:5px;padding:1px 6px}
+.schools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.school{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center;font-weight:600;font-size:14px}
+.school img{width:36px;height:36px;object-fit:contain}
+.school .ph{width:36px;height:36px;border-radius:8px;background:#EDE4F6;color:#5B3C88;display:grid;place-items:center;font-weight:800;font-size:12px}
+
+/* Photos: every tile the same 4:3 frame; portraits anchored near the top so faces stay in */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.ph-t{border:0;padding:0;background:var(--surface);border-radius:12px;overflow:hidden;cursor:zoom-in;position:relative;text-align:left}
+.ph-t img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .35s}
+.ph-t:hover img{transform:scale(1.04)}
+.ph-t span{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:13px;font-weight:600}
+
+/* Staff and links */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card .r{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.card .w{font-family:var(--display);font-size:24px;font-weight:700;color:var(--green);line-height:1.1;margin-top:2px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.lk{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-weight:600;font-size:14px;text-decoration:none;color:var(--green)}
+.lk:hover{border-color:var(--green)}
+.lk.pri{background:var(--gold);border-color:var(--gold)}
+
+/* Player of the Week */
+.potw{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start;max-width:760px}
+.potw .num{width:72px;height:72px;font-size:36px}
+.potw .wk{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.potw .who{font-family:var(--display);font-size:30px;font-weight:700;color:var(--green);line-height:1.05}
+.potw p{margin:10px 0 0}
+
+.potw-img{max-width:420px;width:100%;border-radius:var(--r);margin:0 0 14px;cursor:zoom-in;border:0;padding:0;background:none}
+.potw-img img{border-radius:var(--r);box-shadow:0 8px 22px rgba(19,32,26,.15)}
+
+/* Highlights */
+.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.vids figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.vids video{width:100%;aspect-ratio:16/9;display:block;background:#000}
+.vids figcaption{padding:8px 12px;font-weight:600;font-size:14px}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(5,15,10,.9);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.lb.open{display:flex}
+.lb figure{margin:0;max-width:min(1100px,100%);text-align:center}
+.lb img{max-height:82vh;width:auto;margin:0 auto;object-fit:contain;border-radius:8px}
+.lb figcaption{color:#fff;margin-top:10px;font-weight:600}
+.lb button{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:0;background:#fff;font-size:22px;cursor:pointer}
+
+footer{margin:40px 0 30px;color:var(--muted);font-size:13px;text-align:center}
+
+@media (max-width:760px){
+  .hero-in{grid-template-columns:1fr;padding-bottom:40px}
+  .clip{width:170px;position:absolute;right:14px;top:16px;transform:rotate(3deg)}
+  .logos{margin-bottom:56px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .schools,.cards{grid-template-columns:1fr 1fr}
+  .game{grid-template-columns:56px minmax(0,1fr);}
+  .game .res{grid-column:2;justify-self:start}
+  .potw{grid-template-columns:1fr}
+}
+@media (max-width:420px){.clip{width:130px}.schools,.cards{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
 
-<div class="rolling-ball" id="rollingBall">⚽</div>
-
-<div class="container">
-    <div class="header-logos">
-        <img src="images/fenway-logo.webp" alt="Fenway High Logo">
-        <img src="images/bps-logo.png" alt="Boston Public Schools Logo">
-        <img src="images/panthers.jpeg" alt="Fenway Panthers" style="height: 60px; object-fit: contain;">
+<header class="hero">
+  <img class="hero-bg" src="images/team/practice-skyline.jpg" alt="">
+  <div class="hero-in">
+    <div>
+      <div class="logos">
+        <img src="images/fenway-logo.webp" alt="Fenway High School">
+        <img src="images/snowden-logo.png" alt="Snowden International">
+        <img src="images/panthers.jpeg" alt="Fenway Panthers">
+      </div>
+      <div class="eyebrow">2026 Season · Boston City League South</div>
+      <h1>Fenway Boys Soccer</h1>
+      <p class="sub">The Snowden Fenway co-op: players from Fenway, Snowden International, CASH and Josiah Quincy Upper, one team at Carter Field.</p>
+      <span class="badge">🏆 First MIAA State Tournament trip in Fenway history</span>
     </div>
+    <button class="clip" data-full="images/team/team-photo.jpg" data-cap="2026 Snowden Fenway boys soccer" aria-label="Open the team photo">
+      <img src="images/team/team-photo-crop.jpg" alt="2026 Snowden Fenway boys soccer team photo">
+      <span>Team photo</span>
+    </button>
+  </div>
+</header>
 
-    <div class="header">
-        <div>
-            <h1>⚽ Fenway Boys Soccer</h1>
-            <p>2026-2027 Season | Multi-School Initiative</p>
-            <div style="margin-top: 1rem; font-size: 1.5rem;">
-                <span class="soccer-ball">⚽</span>
-                <span class="soccer-ball">⚽</span>
-                <span class="soccer-ball">⚽</span>
-                <span class="soccer-ball">⚽</span>
-            </div>
-        </div>
-        <div>
-            <p>Total Roster: <strong>24 Players</strong></p>
-            <span class="badge badge-info">Season Starts Sept 16</span>
-        </div>
+<main class="wrap">
+  <section class="stats" aria-label="Season numbers">
+    <div class="stat"><b>7-5-2</b><span>Regular season</span></div>
+    <div class="stat"><b>#15</b><span>MIAA Division 5 seed</span></div>
+    <div class="stat"><b>1-0</b><span>Playoffs so far</span></div>
+    <div class="stat"><b>4</b><span>Partner schools</span></div>
+  </section>
+
+  <section class="next" id="next" aria-label="Next game"></section>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="t-schedule" aria-controls="schedule" aria-selected="true">Schedule</button>
+    <button class="tab" role="tab" id="t-roster" aria-controls="roster" aria-selected="false">Roster</button>
+    <button class="tab" role="tab" id="t-photos" aria-controls="photos" aria-selected="false">Photos</button>
+    <button class="tab" role="tab" id="t-videos" aria-controls="videos" aria-selected="false">Highlights</button>
+    <button class="tab" role="tab" id="t-team" aria-controls="team" aria-selected="false">Coaches &amp; links</button>
+    <button class="tab" role="tab" id="t-potw" aria-controls="potw" aria-selected="false">Player of the Week</button>
+  </nav>
+
+  <section class="panel" id="schedule" role="tabpanel" aria-labelledby="t-schedule">
+    <h2>Schedule and results</h2>
+    <p class="lede">Home games at Carter Field. Times are 4:00 PM unless listed.</p>
+    <div class="sect">MIAA State Tournament, Division 5</div>
+    <ul class="games" id="playoffs"></ul>
+    <div class="sect">Regular season</div>
+    <ul class="games" id="regular"></ul>
+  </section>
+
+  <section class="panel" id="roster" role="tabpanel" aria-labelledby="t-roster" hidden>
+    <h2>2026 Roster</h2>
+    <p class="lede">Official roster, October 14. (C) = captain.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filter by school"></div>
+    <div class="roster" id="rosterGrid"></div>
+    <div class="schools">
+      <div class="school"><img src="images/fenway-logo.webp" alt="">Fenway High School</div>
+      <div class="school"><img src="images/snowden-logo.png" alt="">Snowden International</div>
+      <div class="school"><span class="ph" aria-hidden="true">CASH</span>CASH Charter</div>
+      <div class="school"><img src="images/jqu-logo.jpeg" alt="">Josiah Quincy Upper</div>
     </div>
+  </section>
 
-    <img src="images/carter-field.webp" alt="Carter Field" class="hero-image">
+  <section class="panel" id="photos" role="tabpanel" aria-labelledby="t-photos" hidden>
+    <h2>Photos</h2>
+    <p class="lede">Tap a photo to see it full size.</p>
+    <div class="gallery" id="gallery"></div>
+  </section>
 
-    <div style="background: white; border: 2px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-        <h3 style="color: var(--primary); margin-bottom: 1rem;">🏫 Partner Schools</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-            <div style="padding: 1rem; background: #f0f7f4; border-left: 4px solid #2D7A3E; border-radius: 4px;">
-                <h4 style="color: #2D7A3E; margin-bottom: 0.5rem;">🟢 Fenway High School</h4>
-                <p style="font-size: 0.9rem; color: var(--text-light);">8 Players</p>
-            </div>
-            <div style="padding: 1rem; background: #fffbf0; border-left: 4px solid #FF8C42; border-radius: 4px;">
-                <h4 style="color: #FF8C42; margin-bottom: 0.5rem;">🟡 Snowden International</h4>
-                <p style="font-size: 0.9rem; color: var(--text-light);">6 Players</p>
-            </div>
-            <div style="padding: 1rem; background: #f0f5ff; border-left: 4px solid #17A2B8; border-radius: 4px;">
-                <h4 style="color: #17A2B8; margin-bottom: 0.5rem;">🟣 CASH Charter</h4>
-                <p style="font-size: 0.9rem; color: var(--text-light);">7+ Players</p>
-            </div>
-        </div>
+  <section class="panel" id="videos" role="tabpanel" aria-labelledby="t-videos" hidden>
+    <h2>Highlights</h2>
+    <p class="lede">Game clips, about 30 seconds each. Tap play.</p>
+    <div class="vids">
+      <figure><video controls playsinline preload="none" poster="video/highlight-1.jpg"><source src="video/highlight-1.mp4" type="video/mp4"></video><figcaption>Highlight 1</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="video/highlight-2.jpg"><source src="video/highlight-2.mp4" type="video/mp4"></video><figcaption>Highlight 2</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="video/highlight-3.jpg"><source src="video/highlight-3.mp4" type="video/mp4"></video><figcaption>Highlight 3</figcaption></figure>
     </div>
+  </section>
 
-    <div style="background: white; border: 2px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔗 Quick Links & Registration</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-            <a href="https://forms.gle/bfupvdja8gS4xk549" target="_blank" style="padding: 0.75rem; background: linear-gradient(135deg, #FF8C42 0%, #E67E22 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; text-align: center; transition: all 0.3s; font-size: 1.05rem;">📝 Soccer Interest Form</a>
-            <a href="https://www.bostonpublicschools.org/athletics" target="_blank" style="padding: 0.75rem; background: linear-gradient(135deg, #2D7A3E 0%, #1a4d2e 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; text-align: center; transition: all 0.3s;">BPS Athletics</a>
-            <a href="https://www.miaa.net/" target="_blank" style="padding: 0.75rem; background: linear-gradient(135deg, #2D7A3E 0%, #1a4d2e 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; text-align: center; transition: all 0.3s;">MIAA (MA High School Sports)</a>
-            <a href="https://www.mass.gov" target="_blank" style="padding: 0.75rem; background: linear-gradient(135deg, #2D7A3E 0%, #1a4d2e 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; text-align: center; transition: all 0.3s;">MA Department of Education</a>
-            <a href="https://www.bostonpublicschools.org/athletics" target="_blank" style="padding: 0.75rem; background: linear-gradient(135deg, #2D7A3E 0%, #1a4d2e 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; text-align: center; transition: all 0.3s;">BPS Activity Eligibility</a>
-        </div>
+  <section class="panel" id="team" role="tabpanel" aria-labelledby="t-team" hidden>
+    <h2>Coaches</h2>
+    <div class="cards">
+      <div class="card"><div class="r">Head Coach</div><div class="w">Zach English</div></div>
+      <div class="card"><div class="r">Assistant Coach</div><div class="w">Angel "Beni" Martinez</div></div>
+      <div class="card"><div class="r">Athletic Director</div><div class="w">Marcos Baez</div></div>
     </div>
-
-    <div class="team-banner">
-        <img src="images/team/team-photo.jpg" alt="2026 Snowden Fenway boys soccer team photo">
-        <div class="cap">2026 Snowden Fenway Boys Soccer: first MIAA State Tournament trip in Fenway history</div>
+    <div class="sect">Links</div>
+    <div class="links">
+      <a class="lk pri" href="https://forms.gle/bfupvdja8gS4xk549" target="_blank" rel="noopener">📝 Soccer interest form</a>
+      <a class="lk" href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/standings/" target="_blank" rel="noopener">Standings (MaxPreps)</a>
+      <a class="lk" href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/schedule/" target="_blank" rel="noopener">Schedule (MaxPreps)</a>
+      <a class="lk" href="https://www.miaa.net/" target="_blank" rel="noopener">MIAA</a>
+      <a class="lk" href="https://www.bostonpublicschools.org/athletics" target="_blank" rel="noopener">BPS Athletics</a>
     </div>
+    <p class="lede" style="margin-top:12px">MaxPreps lists this co-op under Community Academy of Science &amp; Health.</p>
+  </section>
 
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-label">Total Players</div>
-            <div class="stat-value">24</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Schools</div>
-            <div class="stat-value">4</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Record (W-L-T)</div>
-            <div class="stat-value">7-5-2</div>
-        </div>
+  <section class="panel" id="potw" role="tabpanel" aria-labelledby="t-potw" hidden>
+    <h2>Player of the Week</h2>
+    <button class="potw-img" data-full="images/team/potw-johann.jpg" data-cap="Player of the Week, Week 2: Johann Brooks" aria-label="Open the Player of the Week graphic"><img src="images/team/potw-johann.jpg" alt="Player of the Week, Week 2: Johann Brooks, Fenway Snowden"></button>
+    <div class="potw">
+      <div class="num">8</div>
+      <div>
+        <div class="wk">Week 2 · Sept 21 to 27</div>
+        <div class="who">Johann Brooks</div>
+        <div class="dt2" style="font-size:14px;color:var(--muted)">Grade 11 · Snowden International</div>
+        <p>Johann was our standout in a hard week against two South division rivals, a 1-2 loss to O'Bryant and a 0-3 loss to New Mission. He played every minute of both games, competed for every ball, and set the tone for a young roster drawn from four schools. When the results did not go our way, he kept the group together. That is what we want this program to look like.</p>
+      </div>
     </div>
+  </section>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('schedule')">📅 Schedule</button>
-        <button class="tab-btn" onclick="switchTab('roster')">👥 Full Roster</button>
-        <button class="tab-btn" onclick="switchTab('fenway')">🟢 Fenway</button>
-        <button class="tab-btn" onclick="switchTab('snowden')">🟡 Snowden</button>
-        <button class="tab-btn" onclick="switchTab('quincy')">🔵 Quincy</button>
-        <button class="tab-btn" onclick="switchTab('cash')">🟣 CASH</button>
-        <button class="tab-btn" onclick="switchTab('paperwork')">📋 Paperwork</button>
-    </div>
+  <footer>Fenway Panthers Boys Soccer · Boston Public Schools · Updated November 12, 2026</footer>
+</main>
 
-    <!-- SCHEDULE -->
-    <div id="schedule" class="tab-content active">
-        <div class="accordion" style="margin-bottom: 2rem;">
-            <div class="accordion-header">
-                <div>
-                    <strong>👥 Coaching Staff & Management</strong>
-                </div>
-                <span class="accordion-toggle">▼</span>
-            </div>
-            <div class="accordion-body active">
-                <div class="accordion-content">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                        <div style="border-left: 4px solid var(--primary); padding-left: 1rem;">
-                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Head Coach</h4>
-                            <p style="font-size: 1.1rem; font-weight: 600;">Zach English</p>
-                            <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.25rem;">Program Director & Coach</p>
-                        </div>
-                        <div style="border-left: 4px solid var(--accent); padding-left: 1rem;">
-                            <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Assistant Coach</h4>
-                            <p style="font-size: 1.1rem; font-weight: 600;">Angel "Beni" Martinez</p>
-                            <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.25rem;">Player Development & Training</p>
-                        </div>
-                        <div style="border-left: 4px solid var(--info); padding-left: 1rem;">
-                            <h4 style="color: var(--info); margin-bottom: 0.5rem;">Athletic Director</h4>
-                            <p style="font-size: 1.1rem; font-weight: 600;">Marcos Baez</p>
-                            <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.25rem;">Multi-School Program Coordination</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div style="background: white; border: 2px solid var(--primary); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-            <h2 style="color: var(--primary); margin-bottom: 0.5rem;">📣 Regular Season: 7-5-2</h2>
-            <p style="color: var(--text-light); margin-bottom: 1.25rem; font-size: 0.95rem;">Seven wins, five losses, two ties, and the first MIAA State Tournament bid in Fenway history. Then a 1-0 win over McCann Tech in the Round of 32. Updated November 12.</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
-                <div style="padding: 1rem; background: #fdecea; border-left: 4px solid var(--danger); border-radius: 4px;">
-                    <strong>Game 1, Sept 16 at Madison Park</strong><br>
-                    <span style="font-size: 1.4rem; font-weight: 700;">L 0-2</span>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.5;">Season opener on the road. Fenway held possession and created chances in the first half. Madison Park scored twice after the break.</p>
-                </div>
-                <div style="padding: 1rem; background: #e8f5e9; border-left: 4px solid var(--success); border-radius: 4px;">
-                    <strong>Game 2, Sept 18 vs Boston Collegiate (Home)</strong><br>
-                    <span style="font-size: 1.4rem; font-weight: 700;">W 6-0</span>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.5;">First win of the year, and a big one. Six goals at Carter Field and a clean sheet for the defense. The home debut for this co-op squad could not have gone better.</p>
-                </div>
-                <div style="padding: 1rem; background: #fdecea; border-left: 4px solid var(--danger); border-radius: 4px;">
-                    <strong>Game 3, Sept 22 vs O'Bryant (Home)</strong><br>
-                    <span style="font-size: 1.4rem; font-weight: 700;">L 1-2</span>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.5;">A one-goal game against a South division rival. Fenway scored but could not find the equalizer. We see O'Bryant again on Oct 8 at their place.</p>
-                </div>
-                <div style="padding: 1rem; background: #fdecea; border-left: 4px solid var(--danger); border-radius: 4px;">
-                    <strong>Game 4, Sept 24 vs New Mission (Home)</strong><br>
-                    <span style="font-size: 1.4rem; font-weight: 700;">L 0-3</span>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.5;">Third home game of the week. New Mission controlled it and Fenway could not find the net. Back at it Monday.</p>
-                </div>
-                <div style="padding: 1rem; background: #e8f5e9; border-left: 4px solid var(--success); border-radius: 4px;">
-                    <strong>Sept 28 vs Charlestown (Home)</strong><br>
-                    <span style="font-size: 1.4rem; font-weight: 700;">W 3-2</span>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.5;">A South division win at Carter Field. Three goals and a one-goal margin to hold on to. Rematch at Charlestown Oct 16.</p>
-                </div>
-                <div style="padding: 1rem; background: #fdecea; border-left: 4px solid var(--danger); border-radius: 4px;">
-                    <strong>Oct 2 at Neighborhood House</strong><br>
-                    <span style="font-size: 1.4rem; font-weight: 700;">L 2-3</span>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.5;">Under the lights at Moakley. Fenway scored twice and came up one goal short.</p>
-                </div>
-            </div>
-            <p style="margin-top: 1.25rem; font-weight: 600;">🎯 Next up: MIAA Division 5 Round of 16 at #2 Dearborn STEM, Thursday Nov 12. Come out and support the Panthers.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">MaxPreps lists this team under Community Academy of Science &amp; Health. <a href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/standings/" target="_blank" style="color: var(--primary);">Standings</a> | <a href="https://www.maxpreps.com/ma/hyde-park/community-academy-of-science-and-health/soccer/schedule/" target="_blank" style="color: var(--primary);">Schedule</a></p>
-            <div style="margin-top: 1.25rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, #FF8C42 0%, #E67E22 100%); color: white; border-radius: 8px; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <span style="font-size: 2rem;">🏆</span>
-                <div>
-                    <div style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9;">Player of the Week, Week 2 (Sept 21 to 27)</div>
-                    <div style="font-size: 1.4rem; font-weight: 700;">Johann Brooks</div>
-                    <div style="font-size: 0.9rem; opacity: 0.9;">Grade 11, Snowden International</div>
-                    <p style="font-size: 0.95rem; margin-top: 0.75rem; line-height: 1.5; max-width: 640px;">Johann was our standout in a hard week against two South division rivals, a 1-2 loss to O'Bryant and a 0-3 loss to New Mission. He played every minute of both games, competed for every ball, and set the tone for a young roster drawn from four schools. When the results did not go our way, he kept the group together. That is what we want this program to look like.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 style="margin-bottom: 1rem; color: var(--primary);">📸 Team Photos</h2>
-        <div class="gallery">
-            <figure><img src="images/team/night-practice.jpg" alt="Practice under the lights" loading="lazy"><figcaption>Practice under the lights</figcaption></figure>
-            <figure><img src="images/team/goal-celebration.jpg" alt="Goal celebration" loading="lazy"><figcaption>Goal celebration</figcaption></figure>
-            <figure><img src="images/team/goal-pose.jpg" alt="Having fun at the goal" loading="lazy"><figcaption>Having fun at the goal</figcaption></figure>
-            <figure><img src="images/team/senior-night.jpg" alt="After the game" loading="lazy"><figcaption>After the game</figcaption></figure>
-            <figure><img src="images/team/hands-in.jpg" alt="Hands in" loading="lazy"><figcaption>Hands in</figcaption></figure>
-            <figure><img src="images/team/sunset-crew.jpg" alt="Players and Coach English" loading="lazy"><figcaption>Players and Coach English</figcaption></figure>
-            <figure><img src="images/team/team-talk.jpg" alt="Coach English and the team" loading="lazy"><figcaption>Coach English and the team</figcaption></figure>
-            <figure><img src="images/team/game-wide.jpg" alt="Game day" loading="lazy"><figcaption>Game day</figcaption></figure>
-            <figure><img src="images/team/game-action.jpg" alt="Game action" loading="lazy"><figcaption>Game action</figcaption></figure>
-            <figure><img src="images/team/game-action-2.jpg" alt="Game action" loading="lazy"><figcaption>Game action</figcaption></figure>
-            <figure><img src="images/team/postgame-huddle.jpg" alt="Postgame huddle" loading="lazy"><figcaption>Postgame huddle</figcaption></figure>
-            <figure><img src="images/team/postgame-huddle-2.jpg" alt="Postgame talk" loading="lazy"><figcaption>Postgame talk</figcaption></figure>
-            <figure><img src="images/team/practice-skyline.jpg" alt="Practice at Carter" loading="lazy"><figcaption>Practice at Carter</figcaption></figure>
-            <figure><img src="images/team/practice-skyline-2.jpg" alt="Scrimmage at Carter" loading="lazy"><figcaption>Scrimmage at Carter</figcaption></figure>
-            <figure><img src="images/team/coaches-sideline.jpg" alt="On the sideline" loading="lazy"><figcaption>On the sideline</figcaption></figure>
-            <figure><img src="images/team/coach-sideline.jpg" alt="Coach English" loading="lazy"><figcaption>Coach English</figcaption></figure>
-        </div>
-
-        <h2 style="margin-bottom: 1.5rem; color: var(--primary);">⚽ 2026 Schedule and Results</h2>
-        <div class="schedule-grid">
-            <div class="game-card">
-                <img src="images/carter-soccer-1.jpeg" alt="Soccer at Carter Field" class="schedule-image">
-                <div class="game-date">Wednesday, September 16, PLAYED</div>
-                <div class="game-opponent">vs Madison Park High School</div>
-                <div class="game-details"><strong>Result:</strong> Lost 0-2<br><strong>Location:</strong> Madison Park-O'Bryant</div>
-                <div style="margin-top: 1rem;">
-                    <span class="badge badge-danger">LOSS</span>
-                    <span class="badge badge-warning" style="margin-left: 0.5rem;">Strong First Half</span>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.75rem; line-height: 1.5;">Fenway controlled possession and created shot opportunities in the first half. Madison Park scored twice in the second half to secure the 2-0 victory.</p>
-            </div>
-            <div class="game-card">
-                <img src="images/carter-soccer-2.jpeg" alt="Carter Field action" class="schedule-image">
-                <div class="game-date">Friday, September 18, PLAYED</div>
-                <div class="game-opponent">vs Boston Collegiate</div>
-                <div class="game-details"><strong>Result:</strong> Won 6-0<br><strong>Location:</strong> Carter Field (Home)</div>
-                <div style="margin-top: 1rem;">
-                    <span class="badge badge-success">WIN</span>
-                    <span class="badge badge-warning" style="margin-left: 0.5rem;">Clean Sheet</span>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.75rem; line-height: 1.5;">First win of the season at home. Fenway scored six and kept a clean sheet at Carter Field.</p>
-            </div>
-            <div class="game-card">
-                <img src="images/soccer-action-2.jpg" alt="Soccer ball at the corner flag" class="schedule-image">
-                <div class="game-date">Tuesday, September 22, PLAYED</div>
-                <div class="game-opponent">vs O'Bryant</div>
-                <div class="game-details"><strong>Result:</strong> Lost 1-2<br><strong>Location:</strong> Carter Field (Home)</div>
-                <div style="margin-top: 1rem;">
-                    <span class="badge badge-danger">LOSS</span>
-                    <span class="badge badge-warning" style="margin-left: 0.5rem;">One-Goal Game</span>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.75rem; line-height: 1.5;">A tight one at home. Fenway got on the board but O'Bryant edged it by a single goal.</p>
-            </div>
-            <div class="game-card">
-                <img src="images/game-0924.jpg" alt="Soccer ball on the penalty spot at dusk" class="schedule-image">
-                <div class="game-date">Thursday, September 24, PLAYED</div>
-                <div class="game-opponent">vs New Mission</div>
-                <div class="game-details"><strong>Result:</strong> Lost 0-3<br><strong>Location:</strong> Carter Field (Home)</div>
-                <div style="margin-top: 1rem;">
-                    <span class="badge badge-danger">LOSS</span>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.75rem; line-height: 1.5;">A tough one at home against a South division opponent. New Mission scored three. Rematch on the road Oct 14.</p>
-            </div>
-            <div class="game-card">
-                <img src="images/game-0928.jpg" alt="Lacing up cleats on the sideline" class="schedule-image">
-                <div class="game-date">Monday, September 28</div>
-                <div class="game-opponent">vs Charlestown</div>
-                <div class="game-details"><strong>Final:</strong> W 3-2<br><strong>Location:</strong> Carter Field</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/soccer-action-3.jpg" alt="Team huddle before kickoff" class="schedule-image">
-                <div class="game-date">Wednesday, September 30</div>
-                <div class="game-opponent">vs Roxbury Prep</div>
-                <div class="game-details"><strong>Final:</strong> L 1-2<br><strong>Location:</strong> West Roxbury (Away)</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-danger">LOSS</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/soccer-action-1.jpg" alt="Soccer under the lights" class="schedule-image">
-                <div class="game-date">Friday, October 2</div>
-                <div class="game-opponent">vs Neighborhood House</div>
-                <div class="game-details"><strong>Final:</strong> L 2-3<br><strong>Location:</strong> Moakley (Away)</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-danger">LOSS</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1006.jpg" alt="Ball in the back of the net" class="schedule-image">
-                <div class="game-date">Tuesday, October 6</div>
-                <div class="game-opponent">vs Madison Park</div>
-                <div class="game-details"><strong>Final:</strong> W 2-1<br><strong>Location:</strong> Carter Field</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1008.jpg" alt="Two players going up for a header" class="schedule-image">
-                <div class="game-date">Thursday, October 8</div>
-                <div class="game-opponent">vs O'Bryant</div>
-                <div class="game-details"><strong>Final:</strong> L 0-3<br><strong>Location:</strong> Madison Park-O'Bryant</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-danger">LOSS</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1014.jpg" alt="City soccer field in autumn" class="schedule-image">
-                <div class="game-date">Wednesday, October 14</div>
-                <div class="game-opponent">vs New Mission</div>
-                <div class="game-details"><strong>Final:</strong> W 4-1<br><strong>Location:</strong> Reservation Road</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1016.jpg" alt="Goalkeeper gloves on a soccer ball" class="schedule-image">
-                <div class="game-date">Friday, October 16</div>
-                <div class="game-opponent">vs Charlestown</div>
-                <div class="game-details"><strong>Final:</strong> T 1-1<br><strong>Location:</strong> Charlestown</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-warning">TIE</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1019.jpg" alt="Ball at the center line before kickoff" class="schedule-image">
-                <div class="game-date">Monday, October 19</div>
-                <div class="game-opponent">vs Boston Collegiate</div>
-                <div class="game-details"><strong>Final:</strong> W 6-1<br><strong>Location:</strong> Pope John Paul II</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1020.jpg" alt="Player dribbling down the wing" class="schedule-image">
-                <div class="game-date">Tuesday, October 20</div>
-                <div class="game-opponent">vs English</div>
-                <div class="game-details"><strong>Final:</strong> W 6-0<br><strong>Location:</strong> Carter Field</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span></div>
-            </div>
-            <div class="game-card">
-                <img src="images/game-1023.jpg" alt="Water bottles and soccer balls on the bench" class="schedule-image">
-                <div class="game-date">Friday, October 23</div>
-                <div class="game-opponent">vs Roxbury Prep</div>
-                <div class="game-details"><strong>Final:</strong> 0-0 (as listed by MIAA)<br><strong>Location:</strong> Carter Field</div>
-            </div>
-            <div class="game-card">
-                <img src="images/team/hands-in.jpg" alt="Hands in" class="schedule-image">
-                <div class="game-date">Tuesday, November 10</div>
-                <div class="game-opponent">vs #18 McCann Tech</div>
-                <div class="game-details"><strong>Final:</strong> W 1-0<br><strong>Location:</strong> Carter Field<br><strong>Type:</strong> MIAA D5 Round of 32</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-success">WIN</span> <span class="badge badge-warning" style="margin-left: 0.5rem;">STATE TOURNAMENT</span></div>
-            </div>
-            <div class="game-card upcoming">
-                <img src="images/team/night-practice.jpg" alt="Practice under the lights" class="schedule-image">
-                <div class="game-date">Thursday, November 12</div>
-                <div class="game-opponent">at #2 Dearborn STEM</div>
-                <div class="game-details"><strong>Type:</strong> MIAA D5 Round of 16</div>
-                <div style="margin-top: 1rem;"><span class="badge badge-warning">STATE TOURNAMENT</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FULL ROSTER -->
-    <div id="roster" class="tab-content">
-        <h2 style="margin-bottom: 1.5rem; color: var(--primary);">👥 Official Roster — Fenway Boys Soccer</h2>
-        <p style="color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem;">2026-2027 Season | Multi-School Program</p>
-
-        <div class="school-section">
-            <div class="school-header"><img src="images/fenway-logo.webp" alt="Fenway Logo">🟢 Fenway High School — 8 Players</div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Player Name</th><th>Grade</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Louicius, Faustirano</td><td>10</td></tr>
-                    <tr><td>Simon, Kai Rivera</td><td>10</td></tr>
-                    <tr><td>Dunn, Ronald Joseph III</td><td>10</td></tr>
-                    <tr><td>Vladi, Anid</td><td>12</td></tr>
-                    <tr><td>Contreras Ramirez, Leonardo Isaias</td><td>10</td></tr>
-                    <tr><td>Marseille Etienne, Ismael Emanuel</td><td>10</td></tr>
-                    <tr><td>Alvarado Dominguez, Martin Jose</td><td>11</td></tr>
-                    <tr><td>Sanon, Leisson</td><td>TBD</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="school-section">
-            <div class="school-header"><img src="images/snowden-logo.png" alt="Snowden Logo">🟡 Snowden International — 6 Players</div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Player Name</th><th>Grade</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Pereira Correia, Jayc</td><td>12</td></tr>
-                    <tr><td>Guardado Arias, Junior Alexander</td><td>10</td></tr>
-                    <tr><td>Flores Ballesteros, Aisak Alexi</td><td>11</td></tr>
-                    <tr><td>Brooks, Johann Cleveland</td><td>11</td></tr>
-                    <tr><td>Colvin, Calum Jonas Shenk</td><td>11</td></tr>
-                    <tr><td>Rodrigues Lopes, Jailin Pedro</td><td>9</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="school-section">
-            <div class="school-header"><img src="images/jqu-logo.jpeg" alt="Josiah Quincy Logo">🔵 Josiah Quincy Upper — TBD Players</div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Player Name</th><th>Grade</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Players being added</td><td>-</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="school-section">
-            <div class="school-header">🟣 CASH Charter — 7+ Players</div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Player Name</th><th>Grade</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Monace, Brian Junior</td><td>11</td></tr>
-                    <tr><td>Alexandre, Juvenss-May</td><td>11</td></tr>
-                    <tr><td>Silva do Nascimento, Lucas Gabriel</td><td>11</td></tr>
-                    <tr><td>Brown, Lima</td><td>11</td></tr>
-                    <tr><td>Billy, Arly</td><td>11</td></tr>
-                    <tr><td>Mesidor, Juvensley</td><td>TBD</td></tr>
-                    <tr><td>Sebeat, Ysmael Aderson</td><td>TBD</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div style="background: #e8f5e9; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 4px; margin-top: 1.5rem;">
-            <p style="font-size: 0.95rem; color: var(--primary);"><strong>Total: 21+ Players across 4 Partner Schools</strong></p>
-            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">Fenway (8) • Snowden (6) • CASH (7+) • Josiah Quincy (TBD)</p>
-            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">Head Coach: Zach English | Assistant Coach: Angel "Beni" Martinez | Athletic Director: Marcos Baez</p>
-        </div>
-    </div>
-
-    <!-- FENWAY -->
-    <div id="fenway" class="tab-content">
-        <div class="school-section">
-            <div class="school-header"><img src="images/fenway-logo.webp" alt="Fenway Logo">🟢 Fenway High School <span class="player-count">8 Players</span></div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Name</th><th>Grade</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td class="player-name">Faustirano Louicius</td><td><span class="grade">10</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Kai Simon</td><td><span class="grade">10</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Ronald Dunn</td><td><span class="grade">10</span></td><td><span class="status-badge status-ok">✓ OK</span><br><small>Exp 10/11</small></td></tr>
-                    <tr><td class="player-name">Anid Vladi</td><td><span class="grade">12</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Leonardo Contreras</td><td><span class="grade">10</span></td><td><span class="status-badge status-needs">⚠ Needs consent</span></td></tr>
-                    <tr><td class="player-name">Andy Salvador</td><td><span class="grade">10</span></td><td><span class="status-badge status-needs">⚠ Needs physical</span></td></tr>
-                    <tr><td class="player-name">Ismael Marseille</td><td><span class="grade">10</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Martin Alvarado</td><td><span class="grade">11</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- SNOWDEN -->
-    <div id="snowden" class="tab-content">
-        <div class="school-section">
-            <div class="school-header"><img src="images/snowden-logo.png" alt="Snowden Logo">🟡 Snowden International <span class="player-count">6 Players</span></div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Name</th><th>Grade</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td class="player-name">Jayc Correia</td><td><span class="grade">12</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Junior Guardado</td><td><span class="grade">10</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Aisak Flores</td><td><span class="grade">11</span></td><td><span class="status-badge status-ok">✓ OK</span><br><small>Exp 10/10</small></td></tr>
-                    <tr><td class="player-name">Johann Brooks</td><td><span class="grade">11</span></td><td><span class="status-badge status-ok">✓ OK</span><br><small>Exp 10/8</small></td></tr>
-                    <tr><td class="player-name">Calum Colvin</td><td><span class="grade">11</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Joshua Andres Roman</td><td><span class="grade">9</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- QUINCY -->
-    <div id="quincy" class="tab-content">
-        <div class="school-section">
-            <div class="school-header"><img src="images/jqu-logo.jpeg" alt="Josiah Quincy Upper Logo">🔵 Josiah Quincy Upper <span class="player-count">3 Players</span></div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Name</th><th>Grade</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td class="player-name">Jamir Antonio Castillo</td><td><span class="grade">9</span></td><td><span class="status-badge status-needs">⚠ Needs consent</span></td></tr>
-                    <tr><td class="player-name">Waleed Tiguite</td><td><span class="grade">TBD</span></td><td><span class="status-badge status-needs">⚠ Needs physical</span></td></tr>
-                    <tr><td class="player-name">Aman Haileselassie</td><td><span class="grade">10</span></td><td><span class="status-badge status-needs">⚠ Check eligibility</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- CASH -->
-    <div id="cash" class="tab-content">
-        <div class="school-section">
-            <div class="school-header">🟣 CASH Charter <span class="player-count">7 Players</span><span style="font-size: 0.85rem; margin-left: 0.5rem;">(no logo available)</span></div>
-            <table class="roster-table">
-                <thead>
-                    <tr><th>Name</th><th>Grade</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td class="player-name">Brian Monace</td><td><span class="grade">11</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Juvens Alexandre</td><td><span class="grade">11</span></td><td><span class="status-badge status-ok">✓ OK</span></td></tr>
-                    <tr><td class="player-name">Lucas Nascimento</td><td><span class="grade">11</span></td><td><span class="status-badge status-needs">⚠ Needs consent</span></td></tr>
-                    <tr><td class="player-name">Lima Brown</td><td><span class="grade">11</span></td><td><span class="status-badge status-needs">⚠ Needs consent</span></td></tr>
-                    <tr><td class="player-name">Arly Billy</td><td><span class="grade">11</span></td><td><span class="status-badge status-needs">⚠ Needs consent</span></td></tr>
-                    <tr><td class="player-name">Olgens Masse</td><td><span class="grade">TBD</span></td><td><span class="status-badge status-needs">⚠ Needs both</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- PAPERWORK -->
-    <div id="paperwork" class="tab-content">
-        <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Paperwork Status</h2>
-        <div style="background: #fff3cd; border-left: 4px solid var(--warning); padding: 1rem; border-radius: 4px; margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1rem;">⚠️ Need Consent:</h3>
-            <ul style="margin-left: 1.5rem;">
-                <li>Leonardo Contreras (Fenway)</li>
-                <li>Jamir Antonio Castillo (Quincy)</li>
-                <li>Lucas Nascimento (CASH)</li>
-                <li>Lima Brown (CASH)</li>
-                <li>Arly Billy (CASH)</li>
-            </ul>
-        </div>
-        <div style="background: #f8d7da; border-left: 4px solid var(--danger); padding: 1rem; border-radius: 4px; margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1rem;">🏥 Need Physical:</h3>
-            <ul style="margin-left: 1.5rem;">
-                <li>Andy Salvador (Fenway) — Also needs consent</li>
-                <li>Waleed Tiguite (Quincy)</li>
-                <li>Olgens Masse (CASH) — Also needs consent</li>
-            </ul>
-        </div>
-        <div style="background: #f8d7da; border-left: 4px solid #DC3545; padding: 1rem; border-radius: 4px;">
-            <h3 style="margin-bottom: 1rem;">📅 Expiring Soon (by mid-October):</h3>
-            <ul style="margin-left: 1.5rem;">
-                <li>Johann Brooks (Snowden) — Expires 10/8</li>
-                <li>Aisak Flores (Snowden) — Expires 10/10</li>
-                <li>Ronald Dunn (Fenway) — Expires 10/11</li>
-            </ul>
-        </div>
-    </div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo">
+  <button id="lbClose" aria-label="Close">&#215;</button>
+  <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
 </div>
 
 <script>
-function switchTab(tabName) {
-    const tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    document.getElementById(tabName).classList.add('active');
-    event.target.classList.add('active');
+// Results: W, L, T, or U (upcoming). Notes are short recaps.
+const PLAYOFFS = [
+  {d:"2026-11-10", o:"#18 McCann Tech", home:true, site:"Carter Field", r:"W", s:"1-0", round:"Round of 32", n:"A 1-0 win in the first MIAA tournament game in Fenway history."},
+  {d:"2026-11-12", o:"#2 Dearborn STEM", home:false, site:"Dearborn STEM", r:"U", round:"Round of 16"}
+];
+const REGULAR = [
+  {d:"2026-09-16", o:"Madison Park", home:false, site:"Madison Park-O'Bryant", r:"L", s:"0-2", n:"Season opener. Fenway held the ball and made chances in the first half."},
+  {d:"2026-09-18", o:"Boston Collegiate", home:true, site:"Carter Field", r:"W", s:"6-0", n:"First win of the year: six goals and a clean sheet at home."},
+  {d:"2026-09-22", o:"O'Bryant", home:true, site:"Carter Field", r:"L", s:"1-2", n:"A one-goal game against a South division rival."},
+  {d:"2026-09-24", o:"New Mission", home:true, site:"Carter Field", r:"L", s:"0-3"},
+  {d:"2026-09-28", o:"Charlestown", home:true, site:"Carter Field", r:"W", s:"3-2", n:"A South division win at Carter."},
+  {d:"2026-09-30", o:"Roxbury Prep", home:false, site:"West Roxbury", t:"6:00 PM", r:"L", s:"1-2"},
+  {d:"2026-10-02", o:"Neighborhood House", home:false, site:"Moakley", t:"6:30 PM", r:"L", s:"2-3", n:"Under the lights, one goal short."},
+  {d:"2026-10-06", o:"Madison Park", home:true, site:"Carter Field", r:"W", s:"2-1"},
+  {d:"2026-10-08", o:"O'Bryant", home:false, site:"Madison Park-O'Bryant", r:"L", s:"0-3"},
+  {d:"2026-10-14", o:"New Mission", home:false, site:"Reservation Road", r:"W", s:"4-1"},
+  {d:"2026-10-16", o:"Charlestown", home:false, site:"Charlestown", r:"T", s:"1-1"},
+  {d:"2026-10-19", o:"Boston Collegiate", home:false, site:"Pope John Paul II", r:"W", s:"6-1"},
+  {d:"2026-10-20", o:"English", home:true, site:"Carter Field", r:"W", s:"6-0"},
+  {d:"2026-10-23", o:"Roxbury Prep", home:true, site:"Carter Field", r:"T", s:"0-0"}
+];
+// Official roster, October 14. School left blank where it is not on file.
+const ROSTER = [
+  [0,"Calum Colvin",11,"Snowden"],[1,"Khang Nguyen",12,""],[2,"Ismael Marseille",10,"Fenway",true],
+  [3,"Martin Alvarado Dominguez",11,"Fenway"],[5,"Leisson Sanon",10,"Fenway"],[6,"Aisak Flores Ballesteros",11,"Snowden"],
+  [7,"Jailin Rodrigues Lopes",10,"Snowden"],[8,"Johann Brooks",11,"Snowden"],[9,"Lucas Silva do Nascimento",11,"CASH"],
+  [10,"Jayc Pereira Correia",12,"Snowden"],[13,"Brian Monace",null,"CASH"],[14,"Diego Guerra Velasquez",11,""],
+  [15,"Cyrus Dorzelma",null,""],[17,"Leo Contreras Ramirez",10,"Fenway"],[19,"Junior Guardado Arias",10,"Snowden"],
+  [20,"Kai Simon",10,"Fenway"],[21,"Juvens Alexandre",11,"CASH"],[22,"Andy Salvador",10,"Fenway"],
+  [23,"Arly Billy",10,"CASH"],[24,"Lima Brown",12,"CASH"],[30,"Juvensley Toussaint",11,""]
+];
+// Photos. pos sets the crop focus inside the 4:3 frame (portraits keep faces in).
+const PHOTOS = [
+  ["postgame-huddle-2.jpg","Postgame talk"],["goal-celebration.jpg","Goal celebration","center 30%"],["senior-night.jpg","After the game"],
+  ["hands-in.jpg","Hands in"],["sunset-crew.jpg","Players and Coach English","center 50%"],["night-practice.jpg","Practice under the lights"],
+  ["goal-pose.jpg","Having fun at the goal"],["team-talk.jpg","Coach English and the team"],["practice-skyline-2.jpg","Scrimmage at Carter"],
+  ["game-action.jpg","Game action","center 60%"],["game-action-2.jpg","Game action","center 60%"],["postgame-huddle.jpg","Postgame huddle"],
+  ["game-wide.jpg","Game day"],["coaches-sideline.jpg","On the sideline"],["coach-sideline.jpg","Coach English","center 20%"],
+  ["practice-skyline.jpg","Practice at Carter"],["match-day-1019.jpg","Match day vs Boston Collegiate, 10/19","center 30%"],
+  ["carter-dribble.jpg","On the ball at Carter Field","center 40%"],["number-8.jpg","#8 on the sideline","center 30%"],
+  ["skyline-practice.jpg","Practice with the skyline","center 70%"],["carter-field.jpg","Carter Field","center 60%"]
+];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dt = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+const fmt = (s,o) => dt(s).toLocaleDateString("en-US", o);
+
+function gameRow(g){
+  const label = g.r==="U" ? "Upcoming" : (g.r==="T" ? "T " : g.r+" ") + g.s;
+  return `<li class="game">
+    <div class="d"><small>${fmt(g.d,{month:"short"})}</small><b>${fmt(g.d,{day:"numeric"})}</b><small>${fmt(g.d,{weekday:"short"})}</small></div>
+    <div><div class="o">${g.home?"vs":"at"} ${esc(g.o)}${g.round?`<span class="tag">${esc(g.round)}</span>`:""}</div>
+      <div class="m">${esc(g.site)}${g.home?" (home)":""} · ${esc(g.t||"4:00 PM")}</div>
+      ${g.n?`<div class="n">${esc(g.n)}</div>`:""}</div>
+    <div class="res ${g.r}">${label}</div></li>`;
 }
+$("playoffs").innerHTML = PLAYOFFS.map(gameRow).join("");
+$("regular").innerHTML = REGULAR.map(gameRow).join("");
 
-function toggleAccordion(element) {
-    const body = element.nextElementSibling;
-    const toggle = element.querySelector('.accordion-toggle');
-    body.classList.toggle('active');
-    toggle.classList.toggle('active');
+// Next game card: first upcoming game, else the last result
+(function(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const all = [...REGULAR, ...PLAYOFFS].sort((a,b) => a.d < b.d ? -1 : 1);
+  const up = all.find(g => g.r==="U" && dt(g.d) >= today);
+  const g = up || all.filter(x => x.r!=="U").pop();
+  const isToday = up && +dt(up.d)===+today;
+  $("next").innerHTML = `<div class="dt"><b>${fmt(g.d,{day:"numeric"})}</b><small>${fmt(g.d,{month:"short"})}</small></div>
+    <div><div class="k">${up ? (isToday ? "Today" : "Next game") : "Latest result"}</div>
+    <div class="t">${up ? "" : esc(g.r+" "+g.s)+" "}${g.home?"vs":"at"} ${esc(g.o)}</div>
+    <div class="s">${g.round?"MIAA Division 5 "+esc(g.round)+" · ":""}${esc(g.site)}${up?" · Come out and support the Panthers.":""}</div></div>`;
+})();
+
+// Roster with school filter
+const SCHOOLS = ["All","Fenway","Snowden","CASH","Quincy"];
+let school = "All";
+function renderRoster(){
+  const list = ROSTER.filter(p => school==="All" || p[3]===school);
+  $("rosterGrid").innerHTML = list.length ? list.map(([n,name,gr,sc,cap]) => `<div class="p"><div class="num">${n}</div>
+    <div><div class="nm">${esc(name)}</div><div class="dt2">${gr?"Grade "+gr:""}${sc?`<span class="sch ${sc}">${sc==="Quincy"?"Josiah Quincy":sc}</span>`:""}${cap?`<span class="cap">C</span>`:""}</div></div></div>`).join("")
+    : `<p class="lede">No players listed for this school on the October roster.</p>`;
 }
+$("filters").innerHTML = SCHOOLS.map(s => `<button class="f" data-s="${s}" aria-pressed="${s===school}">${s==="Quincy"?"Josiah Quincy":s}</button>`).join("");
+$("filters").addEventListener("click", e => { const b = e.target.closest("[data-s]"); if(!b) return; school = b.dataset.s;
+  document.querySelectorAll(".f").forEach(x => x.setAttribute("aria-pressed", x===b)); renderRoster(); });
+renderRoster();
 
-// Rolling ball animation on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const rollingBall = document.getElementById('rollingBall');
-    if (rollingBall) {
-        setTimeout(() => {
-            rollingBall.classList.add('hidden');
-        }, 4000);
-    }
+// Gallery
+$("gallery").innerHTML = PHOTOS.map(([f,cap,pos]) => `<button class="ph-t" data-full="images/team/${f}" data-cap="${esc(cap)}">
+  <img src="images/team/${f}" alt="${esc(cap)}" loading="lazy" style="object-position:${pos||"center"}"><span>${esc(cap)}</span></button>`).join("");
 
-    const headers = document.querySelectorAll('.accordion-header');
-    headers.forEach(header => {
-        header.addEventListener('click', function(e) {
-            const body = this.nextElementSibling;
-            const toggle = this.querySelector('.accordion-toggle');
-            const isOpen = body.classList.contains('active');
+// Lightbox for any [data-full]
+function openLb(src, cap){ $("lbImg").src = src; $("lbImg").alt = cap; $("lbCap").textContent = cap; $("lb").classList.add("open"); $("lbClose").focus(); }
+function closeLb(){ $("lb").classList.remove("open"); }
+document.addEventListener("click", e => { const t = e.target.closest("[data-full]"); if(t) openLb(t.dataset.full, t.dataset.cap); });
+$("lbClose").onclick = closeLb;
+$("lb").addEventListener("click", e => { if(e.target===$("lb")) closeLb(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape") closeLb(); });
 
-            // Close all other accordions
-            document.querySelectorAll('.accordion-body').forEach(el => {
-                if (el !== body) {
-                    el.classList.remove('active');
-                    el.previousElementSibling.querySelector('.accordion-toggle').classList.remove('active');
-                }
-            });
-
-            // Toggle current
-            body.classList.toggle('active');
-            toggle.classList.toggle('active');
-        });
-    });
-});
+// Tabs
+const tabs = [...document.querySelectorAll(".tab")];
+function show(id){ tabs.forEach(t => { const on = t.getAttribute("aria-controls")===id; t.setAttribute("aria-selected", on); $(t.getAttribute("aria-controls")).hidden = !on; });
+  try{ history.replaceState(null, "", "#"+id); }catch(e){} }
+tabs.forEach(t => t.addEventListener("click", () => show(t.getAttribute("aria-controls"))));
+const start = location.hash.slice(1);
+if(tabs.some(t => t.getAttribute("aria-controls")===start)) show(start);
 </script>
-
 </body>
 </html>
