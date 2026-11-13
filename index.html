@@ -50,6 +50,12 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(44px,8vw,80px);lin
 .stat span{font-size:13px;color:var(--muted);font-weight:600}
 
 /* Next game */
+.thanks{margin-top:20px;background:var(--green);color:#fff;border-radius:var(--r);padding:22px 22px 18px;border-top:6px solid var(--gold)}
+.thanks .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.thanks h2{font-family:var(--display);font-size:34px;line-height:1.05;margin:4px 0 10px;color:#fff}
+.thanks p{margin:0 0 10px;font-size:16px;line-height:1.5;max-width:70ch}
+.thanks b{color:var(--gold)}
+.thanks .sign{font-weight:700;margin:4px 0 0}
 .next{margin-top:20px;background:var(--green);color:#fff;border-radius:var(--r);padding:18px 20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
 .next .dt{background:var(--gold);color:var(--green);border-radius:12px;padding:8px 14px;text-align:center;font-family:var(--display);line-height:1}
 .next .dt b{display:block;font-size:30px}
@@ -166,10 +172,10 @@ footer{margin:40px 0 30px;color:var(--muted);font-size:13px;text-align:center}
         <img src="images/snowden-logo.png" alt="Snowden International">
         <img src="images/panthers.jpeg" alt="Fenway Panthers">
       </div>
-      <div class="eyebrow">2026 Season · Boston City League South</div>
+      <div class="eyebrow">2026 Season complete · Boston City League South</div>
       <h1>Fenway Boys Soccer</h1>
       <p class="sub">The Snowden Fenway co-op: players from Fenway, Snowden International, CASH and Josiah Quincy Upper, one team at Carter Field.</p>
-      <span class="badge">🏆 First MIAA State Tournament trip in Fenway history</span>
+      <span class="badge">🏆 First MIAA State Tournament trip and first tournament win in Fenway history</span>
     </div>
     <button class="clip" data-full="images/team/team-photo.jpg" data-cap="2026 Snowden Fenway boys soccer" aria-label="Open the team photo">
       <img src="images/team/team-photo-crop.jpg" alt="2026 Snowden Fenway boys soccer team photo">
@@ -180,13 +186,19 @@ footer{margin:40px 0 30px;color:var(--muted);font-size:13px;text-align:center}
 
 <main class="wrap">
   <section class="stats" aria-label="Season numbers">
-    <div class="stat"><b>7-5-2</b><span>Regular season</span></div>
+    <div class="stat"><b>8-6-2</b><span>Final record</span></div>
     <div class="stat"><b>#15</b><span>MIAA Division 5 seed</span></div>
-    <div class="stat"><b>1-0</b><span>Playoffs so far</span></div>
+    <div class="stat"><b>Sweet 16</b><span>State tournament run</span></div>
     <div class="stat"><b>4</b><span>Partner schools</span></div>
   </section>
 
-  <section class="next" id="next" aria-label="Next game"></section>
+  <section class="thanks" aria-labelledby="thanks-h">
+    <div class="k">Thank you</div>
+    <h2 id="thanks-h">What a season.</h2>
+    <p><b>Boys, congratulations.</b> You made history. First trip to the MIAA State Tournament in Fenway history, first tournament win, 1-0 over McCann Tech at Carter, and a run all the way to the Round of 16 against the #2 seed. Four schools, one team. Be proud of what you built.</p>
+    <p><b>To our fans, teachers and families:</b> thank you for coming out to Carter Field and on the road, for the rides, the snacks, the cheering and the support all fall. You made this a home team. We felt it every game.</p>
+    <p class="sign">Thank you all for a great season. See you next fall. Go Panthers! ⚽</p>
+  </section>
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button class="tab" role="tab" id="t-schedule" aria-controls="schedule" aria-selected="true">Schedule</button>
@@ -279,7 +291,7 @@ footer{margin:40px 0 30px;color:var(--muted);font-size:13px;text-align:center}
 // Results: W, L, T, or U (upcoming). Notes are short recaps.
 const PLAYOFFS = [
   {d:"2026-11-10", o:"#18 McCann Tech", home:true, site:"Carter Field", r:"W", s:"1-0", round:"Round of 32", n:"A 1-0 win in the first MIAA tournament game in Fenway history."},
-  {d:"2026-11-12", o:"#2 Dearborn STEM", home:false, site:"Dearborn STEM", r:"U", round:"Round of 16"}
+  {d:"2026-11-12", o:"#2 Dearborn STEM", home:false, site:"Rotch Field", r:"L", s:"", round:"Round of 16", n:"Season ends in the Round of 16 against the #2 seed. Proud of this group."}
 ];
 const REGULAR = [
   {d:"2026-09-16", o:"Madison Park", home:false, site:"Madison Park-O'Bryant", r:"L", s:"0-2", n:"Season opener. Fenway held the ball and made chances in the first half."},
@@ -325,7 +337,7 @@ const dt = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m
 const fmt = (s,o) => dt(s).toLocaleDateString("en-US", o);
 
 function gameRow(g){
-  const label = g.r==="U" ? "Upcoming" : (g.r==="T" ? "T " : g.r+" ") + g.s;
+  const label = g.r==="U" ? "Upcoming" : g.r + (g.s ? " " + g.s : "");
   return `<li class="game">
     <div class="d"><small>${fmt(g.d,{month:"short"})}</small><b>${fmt(g.d,{day:"numeric"})}</b><small>${fmt(g.d,{weekday:"short"})}</small></div>
     <div><div class="o">${g.home?"vs":"at"} ${esc(g.o)}${g.round?`<span class="tag">${esc(g.round)}</span>`:""}</div>
@@ -336,18 +348,7 @@ function gameRow(g){
 $("playoffs").innerHTML = PLAYOFFS.map(gameRow).join("");
 $("regular").innerHTML = REGULAR.map(gameRow).join("");
 
-// Next game card: first upcoming game, else the last result
-(function(){
-  const today = new Date(); today.setHours(0,0,0,0);
-  const all = [...REGULAR, ...PLAYOFFS].sort((a,b) => a.d < b.d ? -1 : 1);
-  const up = all.find(g => g.r==="U" && dt(g.d) >= today);
-  const g = up || all.filter(x => x.r!=="U").pop();
-  const isToday = up && +dt(up.d)===+today;
-  $("next").innerHTML = `<div class="dt"><b>${fmt(g.d,{day:"numeric"})}</b><small>${fmt(g.d,{month:"short"})}</small></div>
-    <div><div class="k">${up ? (isToday ? "Today" : "Next game") : "Latest result"}</div>
-    <div class="t">${up ? "" : esc(g.r+" "+g.s)+" "}${g.home?"vs":"at"} ${esc(g.o)}</div>
-    <div class="s">${g.round?"MIAA Division 5 "+esc(g.round)+" · ":""}${esc(g.site)}${up?" · Come out and support the Panthers.":""}</div></div>`;
-})();
+
 
 // Roster with school filter
 const SCHOOLS = ["All","Fenway","Snowden","CASH","Quincy"];
